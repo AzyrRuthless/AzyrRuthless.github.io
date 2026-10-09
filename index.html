@@ -1,43 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Azyr Ruthless</title>
-  <meta name="description" content="Azyr Ruthless — Android kernels, Qualcomm platforms, and root tools.">
+  <meta name="description" content="Android kernels, Qualcomm platforms, and root tools.">
+  <link rel="canonical" href="https://azyrruthless.github.io">
+
+  <!-- Open Graph & Twitter -->
   <meta property="og:title" content="Azyr Ruthless">
   <meta property="og:description" content="Android kernels, Qualcomm platforms, and root tools.">
   <meta property="og:url" content="https://azyrruthless.github.io">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/132790292?s=400&v=4">
+  <meta name="twitter:card" content="summary">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/132790292?s=64&v=4" type="image/png">
+
+  <!-- Early Theme Bootstrap (Prevents Flash of Unstyled Theme) -->
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
-          }
-        }
-      }
-    }
+    (function () {
+      var t = 'dark';
+      try {
+        t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      } catch (e) {}
+      document.documentElement.classList.toggle('dark', t !== 'light');
+    })();
   </script>
 
+  <!-- Typography: Inter & JetBrains Mono (400, 500, 600) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    ::selection {
-      background: rgba(255, 255, 255, 0.2);
-      color: currentColor;
-    }
-
-    /* Luxurious Monochromatic Design Tokens */
+    /* Design Tokens */
     :root {
+      color-scheme: light;
       --bg-main: #f8f9fa;
       --card-bg: rgba(255, 255, 255, 0.85);
       --card-hover: rgba(255, 255, 255, 0.98);
@@ -49,12 +53,15 @@
       --tag-bg: rgba(0, 0, 0, 0.04);
       --tag-border: rgba(0, 0, 0, 0.08);
       --slider-bg: #ffffff;
-      --slider-shadow: 0 2px 10px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --slider-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       --card-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05);
-      --orb-opacity: 0.25;
+      --sheen-color: rgba(0, 0, 0, 0.04);
+      --orb-opacity: 0.18;
+      --selection-bg: rgba(0, 0, 0, 0.12);
     }
 
     html.dark {
+      color-scheme: dark;
       --bg-main: #09090b;
       --card-bg: rgba(18, 18, 22, 0.72);
       --card-hover: rgba(24, 24, 30, 0.85);
@@ -62,29 +69,56 @@
       --border-hover: rgba(255, 255, 255, 0.28);
       --text-primary: #f4f4f5;
       --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
+      --text-muted: #8e8e96;
       --tag-bg: rgba(255, 255, 255, 0.04);
       --tag-border: rgba(255, 255, 255, 0.09);
       --slider-bg: rgba(255, 255, 255, 0.14);
       --slider-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 4px 14px rgba(0, 0, 0, 0.4);
       --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
-      --orb-opacity: 0.35;
+      --sheen-color: rgba(255, 255, 255, 0.08);
+      --orb-opacity: 0.25;
+      --selection-bg: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Base Reset & Typography */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    ::selection {
+      background: var(--selection-bg);
+      color: currentColor;
     }
 
     body {
       background-color: var(--bg-main);
       color: var(--text-primary);
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
       overflow-x: hidden;
       width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.35s ease, color 0.35s ease;
-    }
-    .code-font {
-      font-family: 'JetBrains Mono', monospace;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Monochromatic Ambient Platinum / Moonlight Auras (No rainbow) */
+    .code-font {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    /* Motion Safe Smooth Scroll */
+    @media (prefers-reduced-motion: no-preference) {
+      html.scroll-smooth {
+        scroll-behavior: smooth;
+      }
+    }
+
+    /* Ambient Lighting Canvas (Soft Gradient without Expensive Blur Filters) */
     .orb-canvas {
       position: fixed;
       inset: 0;
@@ -92,13 +126,11 @@
       pointer-events: none;
       z-index: 0;
       opacity: var(--orb-opacity);
-      transition: opacity 0.35s ease;
+      transition: opacity 0.3s ease;
     }
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
-      will-change: transform;
       pointer-events: none;
     }
     .orb-1 {
@@ -108,8 +140,8 @@
       height: 60vw;
       max-width: 600px;
       max-height: 600px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-      animation: floatA 18s ease-in-out infinite alternate;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 68%);
+      animation: floatA 22s ease-in-out infinite alternate;
     }
     .orb-2 {
       top: 40%;
@@ -118,22 +150,20 @@
       height: 65vw;
       max-width: 640px;
       max-height: 640px;
-      background: radial-gradient(circle, rgba(161, 161, 170, 0.06) 0%, transparent 70%);
-      animation: floatB 22s ease-in-out infinite alternate;
+      background: radial-gradient(circle, rgba(161, 161, 170, 0.1) 0%, transparent 68%);
+      animation: floatB 26s ease-in-out infinite alternate;
     }
 
     @keyframes floatA {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(40px, 50px, 0) scale(1.1); }
-      100% { transform: translate3d(-30px, 60px, 0) scale(0.95); }
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(30px, 45px, 0); }
     }
     @keyframes floatB {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-50px, -35px, 0) scale(1.08); }
-      100% { transform: translate3d(30px, -45px, 0) scale(0.92); }
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-35px, -30px, 0); }
     }
 
-    .float-card {
+    .hero-float {
       animation: gentleBob 7s ease-in-out infinite alternate;
     }
     @keyframes gentleBob {
@@ -141,43 +171,69 @@
       100% { transform: translateY(-4px); }
     }
 
+    /* Reduced Motion & No-Anim State */
+    @media (prefers-reduced-motion: reduce) {
+      .orb, .hero-float {
+        animation: none !important;
+      }
+    }
     body.no-anim .orb,
-    body.no-anim .float-card,
-    body.no-anim * {
+    body.no-anim .hero-float {
       animation: none !important;
     }
 
-    /* Luxurious Minimalist Card */
+    /* Layout Containers */
+    .container {
+      max-width: 48rem;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    @media (min-width: 640px) {
+      .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+
+    /* Cards */
     .luxury-card {
       position: relative;
       background: var(--card-bg);
-      backdrop-filter: blur(28px) saturate(160%);
-      -webkit-backdrop-filter: blur(28px) saturate(160%);
       border: 1px solid var(--border-color);
       border-radius: 24px;
       box-shadow: var(--card-shadow);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.28s ease,
-                  box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                  background 0.28s ease;
-      will-change: transform, box-shadow;
+      transition: border-color 0.25s ease, background-color 0.25s ease;
     }
 
-    .luxury-card:hover {
-      background: var(--card-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-2.5px);
-      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    /* Backdrop-filter scoped only to key elements */
+    .header-bar, .hero-card {
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
     }
-    html.dark .luxury-card:hover {
-      box-shadow: 0 24px 44px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1.5px rgba(255, 255, 255, 0.25);
+
+    @media (hover: hover) {
+      .luxury-card {
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 0.28s ease,
+                    box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.28s ease;
+      }
+      .luxury-card:hover {
+        will-change: transform;
+        background: var(--card-hover);
+        border-color: var(--border-hover);
+        transform: translateY(-2.5px);
+      }
     }
+
     .luxury-card:active {
       transform: scale(0.985);
-      transition-duration: 0.12s;
     }
 
-    /* Soft Brushed Sheen */
+    /* Specular Mouse Sheen */
     .luxury-card::before {
       content: "";
       position: absolute;
@@ -185,34 +241,35 @@
       border-radius: inherit;
       background: radial-gradient(
         420px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-        rgba(255, 255, 255, 0.08),
+        var(--sheen-color),
         transparent 65%
       );
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
-      z-index: 1;
+      z-index: 2;
     }
-    .luxury-card:hover::before, .luxury-card:active::before {
+    .luxury-card:hover::before {
       opacity: 1;
     }
 
-    /* Minimalist Monochromatic Chips */
+    /* Chips */
     .monochrome-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
       background: var(--tag-bg);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--tag-border);
       border-radius: 9999px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
     .monochrome-chip:hover {
-      background: rgba(255, 255, 255, 0.1);
       border-color: var(--border-hover);
-      transform: scale(1.02);
-    }
-    .monochrome-chip:active {
-      transform: scale(0.96);
+      background: var(--card-hover);
     }
 
     /* Segmented Control Bar */
@@ -221,12 +278,12 @@
       display: inline-flex;
       align-items: center;
       background: var(--tag-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-color);
       border-radius: 9999px;
       padding: 3px;
       user-select: none;
+      max-width: 100%;
+      overflow-x: auto;
     }
 
     #filter-slider {
@@ -236,8 +293,6 @@
       height: calc(100% - 6px);
       border-radius: 9999px;
       background: var(--slider-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
       box-shadow: var(--slider-shadow);
       transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
@@ -249,11 +304,14 @@
     .segmented-bar button {
       position: relative;
       z-index: 2;
+      background: transparent;
+      border: none;
       border-radius: 9999px;
       min-height: 32px;
       padding: 0 14px;
       font-size: 11px;
       color: var(--text-muted);
+      cursor: pointer;
       transition: color 0.2s ease;
       white-space: nowrap;
     }
@@ -265,446 +323,536 @@
       font-weight: 600;
     }
 
-    /* Sliding project items */
-    .project-item {
-      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    /* CSS Driven Theme Icon Swapping (Zero FOUC / No JS Icon Flickering) */
+    .theme-icon-sun {
+      display: block;
     }
-    .project-item.slide-out {
-      opacity: 0;
-      transform: translateX(-16px) scale(0.97);
-      pointer-events: none;
+    .theme-icon-moon {
+      display: none;
     }
-    .project-item.slide-in {
-      opacity: 1;
-      transform: translateX(0px) scale(1);
+    html.dark .theme-icon-sun {
+      display: none;
+    }
+    html.dark .theme-icon-moon {
+      display: block;
+    }
+
+    /* Stretched Card Link Pattern (Entire Card Clickable, A11y Friendly) */
+    .card-link {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .card-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 1;
+    }
+    .card-link:hover {
+      opacity: 0.75;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.875rem;
+    }
+    @media (min-width: 640px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Utility Helpers */
+    .flex-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .flex-center {
+      display: flex;
+      align-items: center;
+    }
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative">
+<body>
 
   <!-- Monochromatic Ambient Lighting Canvas -->
-  <div class="orb-canvas">
+  <div class="orb-canvas" aria-hidden="true">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
   </div>
 
-  <!-- Header: Non-Sticky, Monochromatic -->
-  <header class="relative z-50 px-3 sm:px-6 pt-5 pb-2">
-    <div class="max-w-3xl mx-auto h-12 sm:h-13 luxury-card px-4 sm:px-6 flex items-center justify-between !rounded-full">
-      <a href="#" class="code-font text-xs font-semibold tracking-wider text-[var(--text-primary)] hover:opacity-75 transition flex items-center gap-2.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] opacity-80"></span>
-        <span>AzyrRuthless</span>
-      </a>
-
-      <!-- Controls: Pure Minimalist SVG Icons (No Emojis) -->
-      <div class="flex items-center gap-2 sm:gap-3 text-xs code-font">
-        <nav class="hidden sm:flex items-center gap-4 text-[var(--text-muted)] mr-1">
-          <a href="#projects" class="hover:text-[var(--text-primary)] transition py-1">projects</a>
-          <a href="#stack" class="hover:text-[var(--text-primary)] transition py-1">stack</a>
-        </nav>
-
-        <!-- Animation Toggle (Minimal Motion Wave Icon) -->
-        <button id="anim-toggle" onclick="toggleAnimation()" class="monochrome-chip px-2.5 py-1 text-[var(--text-primary)] flex items-center gap-1.5" title="Toggle Motion Animation">
-          <svg id="anim-icon-svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-          <span class="hidden sm:inline text-[11px]" id="anim-label">Motion</span>
-        </button>
-
-        <!-- Theme Toggle (Minimal Sun / Moon SVG Icon) -->
-        <button id="theme-toggle" onclick="toggleTheme()" class="monochrome-chip p-1.5 text-[var(--text-primary)] flex items-center justify-center w-8 h-8" title="Toggle Theme">
-          <!-- Moon Icon (Default for dark) -->
-          <svg id="theme-icon-moon" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <!-- Sun Icon (Hidden initially in dark mode) -->
-          <svg id="theme-icon-sun" class="w-3.5 h-3.5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
-
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-[var(--text-primary)] hover:opacity-70 font-medium transition py-1 ml-1 flex items-center gap-1">
-          <span>github</span>
-          <span class="text-[10px] text-[var(--text-muted)]">↗</span>
+  <!-- Header: Non-Sticky, 52px height -->
+  <header style="position: relative; z-index: 50; padding: 1.25rem 0.75rem 0.5rem;">
+    <div class="container">
+      <div class="luxury-card header-bar flex-between" style="height: 52px; padding: 0 1.25rem; border-radius: 9999px;">
+        <a href="#" class="code-font flex-center" style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-primary); text-decoration: none; gap: 0.625rem;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-primary); opacity: 0.8;" aria-hidden="true"></span>
+          <span>AzyrRuthless</span>
         </a>
+
+        <!-- Controls: Theme, Motion, GitHub -->
+        <div class="flex-center" style="gap: 0.625rem; font-size: 0.75rem;">
+          <nav class="flex-center code-font" style="gap: 1rem; margin-right: 0.25rem;" aria-label="Quick links">
+            <a href="#projects" style="color: var(--text-muted); text-decoration: none; padding: 0.25rem 0;">projects</a>
+            <a href="#stack" style="color: var(--text-muted); text-decoration: none; padding: 0.25rem 0;">stack</a>
+          </nav>
+
+          <!-- Motion Toggle (Pure SVG, Accessible Label) -->
+          <button id="anim-toggle" class="monochrome-chip code-font" style="padding: 0.25rem 0.625rem;" aria-label="Toggle motion animation">
+            <svg class="code-font" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span id="anim-label" style="font-size: 11px;">Motion</span>
+          </button>
+
+          <!-- Theme Toggle (Pure CSS Icon Swap, Accessible Label) -->
+          <button id="theme-toggle" class="monochrome-chip" style="width: 32px; height: 32px; padding: 0; justify-content: center;" aria-label="Toggle light or dark theme">
+            <svg class="theme-icon-moon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg class="theme-icon-sun" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+
+          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="code-font flex-center" style="color: var(--text-primary); text-decoration: none; font-weight: 500; gap: 0.25rem;">
+            <span>github</span>
+            <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="max-w-3xl w-full mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-14 sm:pb-20 flex-1 space-y-8 sm:space-y-12 relative z-10">
+  <!-- Main Content -->
+  <main class="container" style="position: relative; z-index: 10; padding-top: 1rem; padding-bottom: 3.5rem; display: flex; flex-direction: column; gap: 2.25rem;">
 
-    <!-- Profile Hero (Symmetrical Box Padding + Floating) -->
-    <section class="float-card">
-      <div class="luxury-card p-6 sm:p-7 space-y-5">
-        <div class="flex items-center gap-4 sm:gap-5">
-          <div class="relative shrink-0">
-            <img 
-              src="https://avatars.githubusercontent.com/u/132790292?v=4" 
-              alt="Azyr Ruthless" 
-              class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-[20px] border border-[var(--border-color)] bg-[#121214] object-cover shadow-md"
-              onerror="this.src='https://github.com/identicons/AzyrRuthless.png'"
-            >
-          </div>
+    <!-- Profile Hero (Symmetrical Box Padding) -->
+    <section class="hero-float">
+      <div class="luxury-card hero-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+        <div class="flex-center" style="gap: 1.25rem;">
+          <img 
+            src="https://avatars.githubusercontent.com/u/132790292?s=160&v=4" 
+            alt="Azyr Ruthless avatar" 
+            width="80" 
+            height="80" 
+            decoding="async"
+            style="width: 72px; height: 72px; border-radius: 18px; border: 1px solid var(--border-color); background: #121214; object-fit: cover; flex-shrink: 0;"
+          >
 
-          <div class="space-y-1 min-w-0 flex-1">
-            <div class="flex items-center gap-2 flex-wrap">
-              <h1 class="text-xl sm:text-2xl font-semibold text-[var(--text-primary)] tracking-tight truncate">
+          <div style="min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 0.25rem;">
+            <div class="flex-center" style="gap: 0.625rem; flex-wrap: wrap;">
+              <h1 style="font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary);" class="truncate">
                 Azyr Ruthless
               </h1>
-              <span class="code-font text-[10px] sm:text-[11px] monochrome-chip text-[var(--text-muted)] px-2.5 py-0.5">
+              <span class="code-font monochrome-chip" style="font-size: 11px; padding: 0.125rem 0.625rem; color: var(--text-muted);">
                 @AzyrRuthless
               </span>
             </div>
-            <p class="text-xs sm:text-sm text-[var(--text-secondary)] font-normal">
+            <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.4;">
               Android kernels, Qualcomm platforms, & root tools.
             </p>
           </div>
         </div>
 
-        <p class="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-color)] pt-4">
+        <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; border-top: 1px solid var(--border-color); padding-top: 1rem;">
           Tinkering with Linux kernel trees, writing build scripts, and maintaining personal Magisk/KernelSU setups.
         </p>
 
-        <div class="flex flex-wrap items-center gap-2.5 code-font text-xs pt-1">
-          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip px-3.5 py-1.5 text-[var(--text-primary)] flex items-center gap-1.5 min-h-[34px]">
-            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <div class="flex-center" style="gap: 0.625rem; flex-wrap: wrap;">
+          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip code-font" style="padding: 0.375rem 0.875rem; min-height: 34px;">
+            <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             <span>GitHub</span>
-            <span class="text-[var(--text-muted)]">↗</span>
+            <span style="color: var(--text-muted);" aria-hidden="true">↗</span>
           </a>
-          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip px-3.5 py-1.5 text-[var(--text-primary)] flex items-center gap-1.5 min-h-[34px]">
-            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip code-font" style="padding: 0.375rem 0.875rem; min-height: 34px;">
+            <svg style="width: 13px; height: 13px; fill: currentColor;" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             <span>X</span>
-            <span class="text-[var(--text-muted)]">↗</span>
+            <span style="color: var(--text-muted);" aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section with Monochromatic Sliding Segmented Bar -->
-    <section id="projects" class="space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h2 class="text-base font-semibold text-[var(--text-primary)] tracking-wide flex items-center gap-2">
-          <span class="code-font text-[var(--text-muted)] text-xs">01.</span> Repositories
+    <!-- Projects Section with Accessible Segmented Filter -->
+    <section id="projects" style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="flex-between" style="flex-wrap: wrap; gap: 0.75rem;">
+        <h2 style="font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+          <span class="code-font" style="font-size: 0.75rem; color: var(--text-muted);" aria-hidden="true">01.</span>
+          <span>Repositories</span>
         </h2>
 
-        <!-- Monochromatic Segmented Control -->
-        <div class="segmented-bar code-font overflow-x-auto max-w-full">
-          <div id="filter-slider"></div>
-
-          <button id="btn-all" onclick="filterProjects('all', this)" class="filter-btn active" data-cat="all">all</button>
-          <button id="btn-kernel" onclick="filterProjects('kernel', this)" class="filter-btn" data-cat="kernel">kernels</button>
-          <button id="btn-module" onclick="filterProjects('module', this)" class="filter-btn" data-cat="module">modules</button>
-          <button id="btn-tool" onclick="filterProjects('tool', this)" class="filter-btn" data-cat="tool">tools</button>
+        <!-- Accessible Segmented Control Bar -->
+        <div class="segmented-bar code-font" role="group" aria-label="Filter repositories by category">
+          <div id="filter-slider" aria-hidden="true"></div>
+          <button type="button" class="filter-btn active" data-cat="all" aria-pressed="true">all</button>
+          <button type="button" class="filter-btn" data-cat="kernel" aria-pressed="false">kernels</button>
+          <button type="button" class="filter-btn" data-cat="module" aria-pressed="false">modules</button>
+          <button type="button" class="filter-btn" data-cat="tool" aria-pressed="false">tools</button>
         </div>
       </div>
 
-      <!-- Symmetrical Cards Grid -->
-      <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <!-- Projects Grid (Stretched Link for 100% Clickable Affordance) -->
+      <div id="projects-grid" class="grid-2">
 
         <!-- 1: kernel_xiaomi_sm6250 -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">kernel_xiaomi_sm6250</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>kernel_xiaomi_sm6250</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               Linux kernel source tree for Xiaomi SM6250 (Miatoll) devices.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             SM6250 • DTS • Clang
           </div>
-        </div>
+        </article>
 
         <!-- 2: Kernel-Builder -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">Kernel-Builder</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="tool" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>Kernel-Builder</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Shell</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Shell</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               Shell build scripts to automate Android kernel compilation with Clang.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             Automation • Toolchain
           </div>
-        </div>
+        </article>
 
         <!-- 3: morphe-magisk-module -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="module">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">morphe-magisk-module</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="module" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>morphe-magisk-module</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Shell</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Shell</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               Personal Magisk & KernelSU module for device tweaks and thermals.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             Magisk • KernelSU
           </div>
-        </div>
+        </article>
 
         <!-- 4: morphe-cli -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">morphe-cli</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="tool" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>morphe-cli</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Kotlin</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Kotlin</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               CLI patching utility designed for Android terminal environments.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             CLI • Kotlin
           </div>
-        </div>
+        </article>
 
         <!-- 5: kernel_msm-4.19 -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">kernel_msm-4.19</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>kernel_msm-4.19</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               Qualcomm MSM 4.19 common kernel tracking upstream LTS commits.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             Kernel 4.19 • LTS
           </div>
-        </div>
+        </article>
 
         <!-- 6: device_xiaomi_miatoll -->
-        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
-                <span class="group-hover:underline">device_xiaomi_miatoll</span>
-                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="flex-between" style="gap: 0.5rem;">
+              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+                <span>device_xiaomi_miatoll</span>
+                <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
-              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C++</span>
+              <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C++</span>
             </div>
-            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
+            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
               Device trees and HAL configurations for Miatoll custom ROM builds.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
+          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
             AOSP • Device Tree
           </div>
-        </div>
+        </article>
 
       </div>
     </section>
 
-    <!-- Stack Section (Monochromatic) -->
-    <section id="stack" class="space-y-4">
-      <h2 class="text-base font-semibold text-[var(--text-primary)] tracking-wide flex items-center gap-2">
-        <span class="code-font text-[var(--text-muted)] text-xs">02.</span> Toolset & Domains
+    <!-- Stack Section -->
+    <section id="stack" style="display: flex; flex-direction: column; gap: 1rem;">
+      <h2 style="font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+        <span class="code-font" style="font-size: 0.75rem; color: var(--text-muted);" aria-hidden="true">02.</span>
+        <span>Toolset & Domains</span>
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 code-font text-xs">
-        
-        <!-- Kernel -->
-        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+      <div class="grid-3">
+        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Kernel & Systems
           </p>
-          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
+          <p class="code-font" style="font-size: 11px; color: var(--text-secondary); line-height: 1.5;">
             Linux 4.14 / 4.19, Qualcomm MSM, Device Tree (DTS), Clang/LLVM.
           </p>
         </div>
 
-        <!-- Root -->
-        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Root & Modules
           </p>
-          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
+          <p class="code-font" style="font-size: 11px; color: var(--text-secondary); line-height: 1.5;">
             KernelSU / Next, Magisk modules, Zygisk, systemless scripts.
           </p>
         </div>
 
-        <!-- Languages & Env -->
-        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Languages & Env
           </p>
-          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
+          <p class="code-font" style="font-size: 11px; color: var(--text-secondary); line-height: 1.5;">
             C, POSIX Shell / Bash, Kotlin, Linux Workstation (Debian/Arch).
           </p>
         </div>
-
       </div>
     </section>
 
   </main>
 
   <!-- Footer -->
-  <footer class="py-6 sm:py-8 relative z-10 px-3 sm:px-6">
-    <div class="max-w-3xl mx-auto luxury-card px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs code-font text-[var(--text-muted)] !rounded-2xl">
-      <span>Azyr Ruthless • GitHub Pages</span>
-      <div class="flex items-center gap-5">
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--text-primary)] transition">github</a>
-        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--text-primary)] transition">twitter</a>
-        <a href="#" class="hover:text-[var(--text-primary)] transition">top ↑</a>
+  <footer style="position: relative; z-index: 10; padding: 1.5rem 0.75rem 2rem;">
+    <div class="container">
+      <div class="luxury-card flex-between" style="padding: 1rem 1.25rem; border-radius: 16px; font-size: 0.75rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.75rem;">
+        <span class="code-font">Azyr Ruthless • GitHub Pages</span>
+        <div class="flex-center code-font" style="gap: 1.25rem;">
+          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none;">github</a>
+          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none;">X</a>
+          <a href="#" style="color: var(--text-muted); text-decoration: none;">top <span aria-hidden="true">↑</span></a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Script: Theme Toggle, Animation Toggle, Sliding Filter, Mouse Track -->
+  <!-- Scripts: Event Delegation, WAAPI Filter, Throttled Sheen, Resilient Theme/Motion -->
   <script>
-    // 1. Theme Management (SVG-based)
-    function applyTheme(theme) {
-      const html = document.documentElement;
-      const sunIcon = document.getElementById('theme-icon-sun');
-      const moonIcon = document.getElementById('theme-icon-moon');
-      
-      if (theme === 'light') {
-        html.classList.remove('dark');
-        if (sunIcon) sunIcon.classList.remove('hidden');
-        if (moonIcon) moonIcon.classList.add('hidden');
-      } else {
-        html.classList.add('dark');
-        if (sunIcon) sunIcon.classList.add('hidden');
-        if (moonIcon) moonIcon.classList.remove('hidden');
+    (function () {
+      'use strict';
+
+      // 1. Avatar fallback without infinite loop risk
+      const avatarImg = document.querySelector('img[alt="Azyr Ruthless avatar"]');
+      if (avatarImg) {
+        avatarImg.addEventListener('error', function () {
+          this.src = 'https://github.com/identicons/AzyrRuthless.png';
+        }, { once: true });
       }
-      localStorage.setItem('theme', theme);
-    }
 
-    function toggleTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      applyTheme(isDark ? 'light' : 'dark');
-    }
+      // 2. Motion State Management (Guarded localStorage)
+      const animToggle = document.getElementById('anim-toggle');
+      const animLabel = document.getElementById('anim-label');
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-
-    // 2. Animation Management (SVG wave)
-    function applyAnim(enabled) {
-      const body = document.body;
-      const label = document.getElementById('anim-label');
-      if (!enabled) {
-        body.classList.add('no-anim');
-        if (label) label.textContent = 'Off';
-      } else {
-        body.classList.remove('no-anim');
-        if (label) label.textContent = 'Motion';
+      function getInitialMotion() {
+        try {
+          const saved = localStorage.getItem('anim');
+          if (saved !== null) return saved === 'true';
+        } catch (e) {}
+        return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       }
-      localStorage.setItem('anim', enabled ? 'true' : 'false');
-    }
 
-    function toggleAnimation() {
-      const isNoAnim = document.body.classList.contains('no-anim');
-      applyAnim(isNoAnim);
-    }
-
-    const savedAnim = localStorage.getItem('anim') !== 'false';
-    applyAnim(savedAnim);
-
-    // 3. Pointer Tracking
-    const updatePointer = (card, clientX, clientY) => {
-      const rect = card.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const y = clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    };
-
-    document.querySelectorAll('.luxury-card').forEach(card => {
-      card.addEventListener('mousemove', e => updatePointer(card, e.clientX, e.clientY));
-      card.addEventListener('touchmove', e => {
-        if (e.touches && e.touches[0]) {
-          updatePointer(card, e.touches[0].clientX, e.touches[0].clientY);
+      function setMotion(enabled, persist) {
+        document.body.classList.toggle('no-anim', !enabled);
+        if (animLabel) animLabel.textContent = enabled ? 'Motion' : 'Static';
+        if (persist) {
+          try { localStorage.setItem('anim', enabled ? 'true' : 'false'); } catch (e) {}
         }
-      }, { passive: true });
-    });
+      }
 
-    // 4. Sliding Segmented Bar
-    const slider = document.getElementById('filter-slider');
-    
-    function moveSliderTo(targetBtn) {
-      if (!slider || !targetBtn) return;
-      slider.style.width = `${targetBtn.offsetWidth}px`;
-      slider.style.transform = `translateX(${targetBtn.offsetLeft - 3}px)`;
-    }
+      setMotion(getInitialMotion(), false);
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const activeBtn = document.querySelector('.filter-btn.active');
-      if (activeBtn) moveSliderTo(activeBtn);
-    });
+      if (animToggle) {
+        animToggle.addEventListener('click', function () {
+          const isEnabled = !document.body.classList.contains('no-anim');
+          setMotion(!isEnabled, true);
+        });
+      }
 
-    // 5. Sliding Category Filter
-    function filterProjects(category, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      moveSliderTo(btn);
+      // 3. Theme Toggle (Guarded localStorage, class-driven icons)
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          const isDark = document.documentElement.classList.contains('dark');
+          const next = !isDark;
+          document.documentElement.classList.toggle('dark', next);
+          try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch (e) {}
+        });
+      }
 
-      const cards = document.querySelectorAll('.project-item');
+      // 4. Sliding Segmented Bar Synchronization (Fonts + ResizeObserver)
+      const slider = document.getElementById('filter-slider');
+      const bar = slider ? slider.parentElement : null;
 
-      cards.forEach(card => {
-        const itemCat = card.getAttribute('data-category');
-        const matches = (category === 'all' || itemCat === category);
+      function moveSliderTo(targetBtn) {
+        if (!slider || !targetBtn) return;
+        slider.style.width = targetBtn.offsetWidth + 'px';
+        slider.style.transform = 'translateX(' + (targetBtn.offsetLeft - 3) + 'px)';
+      }
 
-        if (!matches) {
-          card.classList.add('slide-out');
-          setTimeout(() => {
-            card.style.display = 'none';
-          }, 200);
-        }
-      });
+      function syncSlider() {
+        if (!bar) return;
+        const activeBtn = bar.querySelector('.filter-btn.active');
+        if (activeBtn) moveSliderTo(activeBtn);
+      }
 
-      setTimeout(() => {
-        let delay = 0;
-        cards.forEach(card => {
-          const itemCat = card.getAttribute('data-category');
-          const matches = (category === 'all' || itemCat === category);
+      if (bar && window.ResizeObserver) {
+        new ResizeObserver(syncSlider).observe(bar);
+      }
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncSlider);
+      }
 
-          if (matches) {
-            card.style.display = 'flex';
-            card.style.transform = 'translateX(20px)';
-            card.style.opacity = '0';
-            setTimeout(() => {
-              card.classList.remove('slide-out');
-              card.classList.add('slide-in');
-              card.style.transform = 'translateX(0px)';
-              card.style.opacity = '1';
-            }, delay);
-            delay += 35;
+      // 5. WAAPI-driven Filter (Cancellable, Individual Translate/Scale, No Inline Styles Left Behind)
+      let filterRun = 0;
+      const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+      function filterProjects(btn) {
+        const run = ++filterRun;
+        const cat = btn.dataset.cat;
+        const cards = Array.from(document.querySelectorAll('.project-item'));
+        const matches = function (c) { return cat === 'all' || c.dataset.category === cat; };
+        const shown = function (c) { return c.style.display !== 'none'; };
+        const ms = function (n) {
+          return (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+                  document.body.classList.contains('no-anim')) ? 0 : n;
+        };
+
+        document.querySelectorAll('.filter-btn').forEach(function (b) {
+          const isActive = (b === btn);
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+        moveSliderTo(btn);
+
+        // Cancel previous filter animations
+        cards.forEach(function (c) {
+          c.getAnimations().forEach(function (a) {
+            if (a.id === 'filter') a.cancel();
+          });
+        });
+
+        const leaving = cards.filter(function (c) { return shown(c) && !matches(c); });
+        const entering = cards.filter(function (c) { return !shown(c) && matches(c); });
+
+        const exits = leaving.map(function (c) {
+          return c.animate(
+            { opacity: [1, 0], translate: ['0 0', '-16px 0'], scale: [1, 0.97] },
+            { id: 'filter', duration: ms(200), easing: EASE, fill: 'forwards' }
+          );
+        });
+
+        Promise.allSettled(exits.map(function (a) { return a.finished; })).then(function () {
+          if (run !== filterRun) return;
+          exits.forEach(function (a) { a.cancel(); });
+          leaving.forEach(function (c) { c.style.display = 'none'; });
+          entering.forEach(function (c, i) {
+            c.style.display = 'flex';
+            c.animate(
+              { opacity: [0, 1], translate: ['20px 0', '0 0'] },
+              { id: 'filter', duration: ms(300), delay: ms(i * 35), easing: EASE, fill: 'backwards' }
+            );
+          });
+        });
+      }
+
+      // Event delegation for segmented filter bar
+      if (bar) {
+        bar.addEventListener('click', function (e) {
+          const btn = e.target.closest('.filter-btn');
+          if (btn && !btn.classList.contains('active')) {
+            filterProjects(btn);
           }
         });
-      }, 210);
-    }
+      }
+
+      // 6. Throttled Pointer Sheen via requestAnimationFrame
+      let rAF = null;
+      let lastEvent = null;
+
+      document.addEventListener('pointermove', function (e) {
+        lastEvent = e;
+        if (!rAF) {
+          rAF = requestAnimationFrame(function () {
+            if (lastEvent) {
+              const card = lastEvent.target.closest('.luxury-card');
+              if (card) {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', (lastEvent.clientX - rect.left) + 'px');
+                card.style.setProperty('--mouse-y', (lastEvent.clientY - rect.top) + 'px');
+              }
+            }
+            rAF = null;
+          });
+        }
+      }, { passive: true });
+
+    })();
   </script>
 
 </body>
