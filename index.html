@@ -51,7 +51,7 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Living Liquid Mesh Orbs - Faster, dynamic & high vibrancy */
+    /* Ambient Floating Liquid Orbs */
     .orb-canvas {
       position: fixed;
       inset: 0;
@@ -62,63 +62,72 @@
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(85px);
+      filter: blur(95px);
       will-change: transform;
       pointer-events: none;
     }
     .orb-1 {
-      top: -5%;
+      top: -10%;
       left: 10%;
-      width: 65vw;
-      height: 65vw;
-      max-width: 550px;
-      max-height: 550px;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.28) 0%, rgba(56, 189, 248, 0.08) 45%, transparent 70%);
-      animation: liquidPulseA 11s ease-in-out infinite alternate;
-    }
-    .orb-2 {
-      top: 40%;
-      right: -10%;
-      width: 70vw;
-      height: 70vw;
+      width: 60vw;
+      height: 60vw;
       max-width: 580px;
       max-height: 580px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.24) 0%, rgba(139, 92, 246, 0.06) 45%, transparent 70%);
-      animation: liquidPulseB 13s ease-in-out infinite alternate;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.25) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 72%);
+      animation: floatOrbitA 14s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      top: 35%;
+      right: -8%;
+      width: 65vw;
+      height: 65vw;
+      max-width: 620px;
+      max-height: 620px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, rgba(139, 92, 246, 0.06) 50%, transparent 72%);
+      animation: floatOrbitB 18s ease-in-out infinite alternate;
     }
     .orb-3 {
       bottom: -10%;
-      left: 20%;
-      width: 60vw;
-      height: 60vw;
-      max-width: 520px;
-      max-height: 520px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(45, 212, 191, 0.05) 50%, transparent 70%);
-      animation: liquidPulseC 15s ease-in-out infinite alternate;
+      left: 18%;
+      width: 55vw;
+      height: 55vw;
+      max-width: 540px;
+      max-height: 540px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(45, 212, 191, 0.05) 50%, transparent 72%);
+      animation: floatOrbitC 16s ease-in-out infinite alternate;
     }
 
-    @keyframes liquidPulseA {
+    @keyframes floatOrbitA {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(60px, 45px, 0) scale(1.18); }
-      100% { transform: translate3d(-35px, 60px, 0) scale(0.92); }
+      50% { transform: translate3d(45px, 60px, 0) scale(1.15); }
+      100% { transform: translate3d(-35px, 80px, 0) scale(0.92); }
     }
-    @keyframes liquidPulseB {
+    @keyframes floatOrbitB {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-65px, -40px, 0) scale(1.15); }
-      100% { transform: translate3d(45px, -30px, 0) scale(0.88); }
+      50% { transform: translate3d(-60px, -45px, 0) scale(1.12); }
+      100% { transform: translate3d(40px, -60px, 0) scale(0.9); }
     }
-    @keyframes liquidPulseC {
+    @keyframes floatOrbitC {
       0% { transform: translate3d(0, 0, 0) scale(0.95); }
-      50% { transform: translate3d(-40px, -50px, 0) scale(1.2); }
-      100% { transform: translate3d(50px, -20px, 0) scale(1.05); }
+      50% { transform: translate3d(-40px, -45px, 0) scale(1.18); }
+      100% { transform: translate3d(50px, -25px, 0) scale(1.04); }
     }
 
-    /* Apple / iOS Liquid Glass Panel */
+    /* Subtle Organic Bobbing / Floating Motion */
+    .float-card {
+      animation: gentleBob 7s ease-in-out infinite alternate;
+    }
+    @keyframes gentleBob {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-5px); }
+    }
+
+    /* Apple / iOS Specular Liquid Glass */
     .liquid-panel {
       position: relative;
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.065) 0%,
+        rgba(255, 255, 255, 0.07) 0%,
         rgba(255, 255, 255, 0.015) 50%,
         rgba(255, 255, 255, 0.035) 100%
       );
@@ -127,42 +136,41 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 
         inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
-        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3),
-        0 12px 32px -8px rgba(0, 0, 0, 0.65);
-      border-radius: 20px;
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.28s ease,
-                  box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                  background 0.28s ease;
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.28),
+        0 14px 34px -8px rgba(0, 0, 0, 0.65);
+      border-radius: 22px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease,
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.3s ease;
       will-change: transform, box-shadow;
     }
 
-    /* Hover & Active / Touch States */
     .liquid-panel:hover, .liquid-panel:active {
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.09) 0%,
+        rgba(255, 255, 255, 0.095) 0%,
         rgba(255, 255, 255, 0.02) 50%,
-        rgba(255, 255, 255, 0.05) 100%
+        rgba(255, 255, 255, 0.055) 100%
       );
-      border-color: rgba(56, 189, 248, 0.35);
+      border-color: rgba(56, 189, 248, 0.38);
       transform: translateY(-3px) scale(1.008);
       box-shadow: 
         inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.35),
-        0 20px 40px -10px rgba(0, 0, 0, 0.75),
-        0 0 25px -5px rgba(56, 189, 248, 0.25);
+        0 22px 42px -10px rgba(0, 0, 0, 0.78),
+        0 0 28px -5px rgba(56, 189, 248, 0.25);
     }
 
-    /* Responsive Mouse/Touch Reflection Sheen */
+    /* Mouse / Touch Liquid Reflection Sheen */
     .liquid-panel::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
-        420px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-        rgba(255, 255, 255, 0.12),
-        transparent 60%
+        450px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+        rgba(255, 255, 255, 0.11),
+        transparent 65%
       );
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -189,62 +197,83 @@
       transform: scale(1.02);
     }
 
-    /* iOS Segmented Filter Container */
+    /* iOS Sliding Segmented Control Bar */
     .ios-segmented {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
       background: rgba(255, 255, 255, 0.04);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 9999px;
       padding: 3px;
+      user-select: none;
     }
-    .ios-segmented button {
+
+    /* The sliding pill thumb */
+    #filter-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      height: calc(100% - 6px);
       border-radius: 9999px;
-      min-height: 34px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.32), 0 3px 10px rgba(0, 0, 0, 0.35);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ios-segmented button {
+      position: relative;
+      z-index: 2;
+      border-radius: 9999px;
+      min-height: 32px;
       padding: 0 14px;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      color: #94a3b8;
       font-size: 11px;
+      color: #94a3b8;
+      transition: color 0.25s ease;
+      white-space: nowrap;
     }
     .ios-segmented button:hover {
       color: #f1f5f9;
     }
     .ios-segmented button.active {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 3px 8px rgba(0, 0, 0, 0.35);
       color: #ffffff;
       font-weight: 600;
     }
 
-    /* Page Entrance Animation */
-    .stagger-in {
-      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    /* Grid cards slide animation */
+    .project-item {
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .project-item.slide-out {
+      opacity: 0;
+      transform: translateX(-16px) scale(0.97);
+      pointer-events: none;
+    }
+    .project-item.slide-in {
+      opacity: 1;
+      transform: translateX(0px) scale(1);
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-cyan-400 selection:text-black relative">
 
-  <!-- Ambient Dynamic Orbs -->
+  <!-- Ambient Liquid Orbs Canvas -->
   <div class="orb-canvas">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
   </div>
 
-  <!-- Floating iOS Navigation Bar -->
+  <!-- Floating iOS Header -->
   <header class="sticky top-3 sm:top-4 z-50 px-3 sm:px-6">
     <div class="max-w-3xl mx-auto h-12 sm:h-13 liquid-panel px-4 sm:px-6 flex items-center justify-between !rounded-full">
       <a href="#" class="code-font text-xs font-semibold tracking-wide text-slate-200 hover:text-white transition flex items-center gap-2 group">
@@ -261,9 +290,9 @@
 
   <main class="max-w-3xl w-full mx-auto px-4 sm:px-6 pt-5 sm:pt-8 pb-14 sm:pb-20 flex-1 space-y-8 sm:space-y-12 relative z-10">
 
-    <!-- Profile Hero -->
-    <section class="stagger-in" style="animation-delay: 0.05s;">
-      <div class="liquid-panel p-5 sm:p-7 space-y-4 sm:space-y-5">
+    <!-- Profile Hero (Symmetrical Box Padding + Floating) -->
+    <section class="float-card">
+      <div class="liquid-panel p-6 sm:p-7 space-y-5">
         <div class="flex items-center gap-4 sm:gap-5">
           <div class="relative shrink-0">
             <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-indigo-500 rounded-[20px] blur opacity-40"></div>
@@ -290,46 +319,50 @@
           </div>
         </div>
 
-        <p class="text-xs sm:text-[13px] text-slate-300 leading-relaxed border-t border-white/[0.08] pt-3 sm:pt-4">
+        <p class="text-xs sm:text-[13px] text-slate-300 leading-relaxed border-t border-white/[0.08] pt-4">
           Mostly tinkering with Linux kernel trees, writing build scripts, and maintaining personal Magisk/KernelSU setups.
         </p>
 
-        <div class="flex flex-wrap items-center gap-2 code-font text-xs pt-0.5">
-          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="ios-pill px-3 py-1.5 text-slate-200 flex items-center gap-1.5 min-h-[34px]">
+        <div class="flex flex-wrap items-center gap-2.5 code-font text-xs pt-1">
+          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="ios-pill px-3.5 py-1.5 text-slate-200 flex items-center gap-1.5 min-h-[34px]">
             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             <span>GitHub</span>
             <span class="text-slate-500">↗</span>
           </a>
-          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="ios-pill px-3 py-1.5 text-slate-200 flex items-center gap-1.5 min-h-[34px]">
+          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="ios-pill px-3.5 py-1.5 text-slate-200 flex items-center gap-1.5 min-h-[34px]">
             <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span>X / Twitter</span>
+            <span>X</span>
             <span class="text-slate-500">↗</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="space-y-4 stagger-in" style="animation-delay: 0.12s;">
+    <!-- Projects Section with Sliding Filter -->
+    <section id="projects" class="space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
           <span class="code-font text-cyan-400 text-sm">#</span> Repositories
         </h2>
 
-        <!-- Horizontal scrollable on small mobile, clean wrapping -->
-        <div class="ios-segmented flex items-center gap-1 code-font overflow-x-auto max-w-full">
-          <button onclick="filterProjects('all')" class="filter-btn active" data-cat="all">all</button>
-          <button onclick="filterProjects('kernel')" class="filter-btn" data-cat="kernel">kernels</button>
-          <button onclick="filterProjects('module')" class="filter-btn" data-cat="module">modules</button>
-          <button onclick="filterProjects('tool')" class="filter-btn" data-cat="tool">tools</button>
+        <!-- iOS Sliding Segmented Control Bar -->
+        <div class="ios-segmented code-font overflow-x-auto max-w-full">
+          <!-- The physical sliding pill -->
+          <div id="filter-slider"></div>
+
+          <button id="btn-all" onclick="filterProjects('all', this)" class="filter-btn active" data-cat="all">all</button>
+          <button id="btn-kernel" onclick="filterProjects('kernel', this)" class="filter-btn" data-cat="kernel">kernels</button>
+          <button id="btn-module" onclick="filterProjects('module', this)" class="filter-btn" data-cat="module">modules</button>
+          <button id="btn-tool" onclick="filterProjects('tool', this)" class="filter-btn" data-cat="tool">tools</button>
         </div>
       </div>
 
-      <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+      <!-- Symmetrical Project Cards Grid -->
+      <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <!-- 1: kernel_xiaomi_sm6250 -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="kernel">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">kernel_xiaomi_sm6250</span>
@@ -337,18 +370,18 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-amber-300 px-2 py-0.5">C</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               Linux kernel source tree for Xiaomi SM6250 (Miatoll) devices.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             SM6250 • DTS • Clang
           </div>
         </div>
 
         <!-- 2: Kernel-Builder -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="tool">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">Kernel-Builder</span>
@@ -356,18 +389,18 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-emerald-300 px-2 py-0.5">Shell</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               Shell build scripts to automate Android kernel compilation with Clang.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             Automation • Toolchain
           </div>
         </div>
 
         <!-- 3: morphe-magisk-module -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="module">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="module">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">morphe-magisk-module</span>
@@ -375,18 +408,18 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-emerald-300 px-2 py-0.5">Shell</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               Personal Magisk & KernelSU module for device tweaks and thermals.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             Magisk • KernelSU
           </div>
         </div>
 
         <!-- 4: morphe-cli -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="tool">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">morphe-cli</span>
@@ -394,18 +427,18 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-violet-300 px-2 py-0.5">Kotlin</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               CLI patching utility designed for Android terminal environments.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             CLI • Kotlin
           </div>
         </div>
 
         <!-- 5: kernel_msm-4.19 -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="kernel">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">kernel_msm-4.19</span>
@@ -413,18 +446,18 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-amber-300 px-2 py-0.5">C</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               Qualcomm MSM 4.19 common kernel tracking upstream LTS commits.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             Kernel 4.19 • LTS
           </div>
         </div>
 
         <!-- 6: device_xiaomi_miatoll -->
-        <div class="project-item liquid-panel p-4.5 sm:p-5 flex flex-col justify-between space-y-3" data-category="kernel">
-          <div class="space-y-1.5">
+        <div class="project-item liquid-panel p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
               <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-100 hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">device_xiaomi_miatoll</span>
@@ -432,11 +465,11 @@
               </a>
               <span class="code-font text-[10px] ios-pill text-blue-300 px-2 py-0.5">C++</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs text-slate-400 leading-relaxed">
               Device trees and HAL configurations for Miatoll custom ROM builds.
             </p>
           </div>
-          <div class="code-font text-[10px] text-slate-500 pt-2 border-t border-white/[0.06]">
+          <div class="code-font text-[10px] text-slate-500 pt-3.5 mt-3.5 border-t border-white/[0.08]">
             AOSP • Device Tree
           </div>
         </div>
@@ -444,28 +477,28 @@
       </div>
     </section>
 
-    <!-- Stack Section -->
-    <section id="stack" class="space-y-4 stagger-in" style="animation-delay: 0.18s;">
+    <!-- Stack Section (Symmetrical 3-Column Box) -->
+    <section id="stack" class="space-y-4">
       <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
         <span class="code-font text-cyan-400 text-sm">#</span> Toolset
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 code-font text-xs">
-        <div class="liquid-panel p-4 space-y-1.5">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 code-font text-xs">
+        <div class="liquid-panel p-5 flex flex-col justify-between space-y-2">
           <p class="text-slate-100 font-medium text-xs">Kernel & Systems</p>
           <p class="text-slate-400 leading-relaxed text-[11px]">
             Linux 4.14 / 4.19, Qualcomm MSM, Device Tree (DTS), Clang/LLVM.
           </p>
         </div>
 
-        <div class="liquid-panel p-4 space-y-1.5">
+        <div class="liquid-panel p-5 flex flex-col justify-between space-y-2">
           <p class="text-slate-100 font-medium text-xs">Root & Modules</p>
           <p class="text-slate-400 leading-relaxed text-[11px]">
             KernelSU / Next, Magisk modules, Zygisk, systemless scripts.
           </p>
         </div>
 
-        <div class="liquid-panel p-4 space-y-1.5">
+        <div class="liquid-panel p-5 flex flex-col justify-between space-y-2">
           <p class="text-slate-100 font-medium text-xs">Languages</p>
           <p class="text-slate-400 leading-relaxed text-[11px]">
             C, POSIX Shell / Bash, Kotlin, Make/Kconfig.
@@ -478,7 +511,7 @@
 
   <!-- Footer -->
   <footer class="py-6 sm:py-8 relative z-10 px-3 sm:px-6">
-    <div class="max-w-3xl mx-auto liquid-panel px-5 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs code-font text-slate-400 !rounded-2xl">
+    <div class="max-w-3xl mx-auto liquid-panel px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs code-font text-slate-400 !rounded-2xl">
       <span>Azyr Ruthless • GitHub Pages</span>
       <div class="flex items-center gap-5">
         <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">github</a>
@@ -488,9 +521,9 @@
     </div>
   </footer>
 
-  <!-- Script (Smooth Touch & Mouse Tracking, Instant Filter) -->
+  <!-- Script: iOS Sliding Pill Slider & Sliding Card Transitions -->
   <script>
-    // Universal pointer tracker for both Mouse & Touch (smooth liquid reaction)
+    // 1. Mouse/Touch Liquid Reflection
     const updatePointer = (card, clientX, clientY) => {
       const rect = card.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -506,39 +539,66 @@
           updatePointer(card, e.touches[0].clientX, e.touches[0].clientY);
         }
       }, { passive: true });
-      card.addEventListener('touchstart', e => {
-        if (e.touches && e.touches[0]) {
-          updatePointer(card, e.touches[0].clientX, e.touches[0].clientY);
-        }
-      }, { passive: true });
     });
 
-    // Fluid Filter
-    function filterProjects(category) {
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        if (btn.getAttribute('data-cat') === category) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
+    // 2. iOS Segmented Sliding Pill Indicator
+    const slider = document.getElementById('filter-slider');
+    
+    function moveSliderTo(targetBtn) {
+      if (!slider || !targetBtn) return;
+      slider.style.width = `${targetBtn.offsetWidth}px`;
+      slider.style.transform = `translateX(${targetBtn.offsetLeft - 3}px)`;
+    }
+
+    // Initialize slider position on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) moveSliderTo(activeBtn);
+    });
+
+    // 3. Sliding Category Filter (Pill slides + Cards slide across)
+    function filterProjects(category, btn) {
+      // Slide the iOS pill indicator
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      moveSliderTo(btn);
+
+      const cards = document.querySelectorAll('.project-item');
+
+      // Stage 1: Slide out non-matching cards
+      cards.forEach(card => {
+        const itemCat = card.getAttribute('data-category');
+        const matches = (category === 'all' || itemCat === category);
+
+        if (!matches) {
+          card.classList.add('slide-out');
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 200);
         }
       });
 
-      const cards = document.querySelectorAll('.project-item');
-      cards.forEach(card => {
-        const itemCat = card.getAttribute('data-category');
-        if (category === 'all' || itemCat === category) {
-          card.style.display = 'flex';
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(6px) scale(0.98)';
-          setTimeout(() => {
-            card.style.transition = 'opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), transform 0.24s cubic-bezier(0.16, 1, 0.3, 1)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0) scale(1)';
-          }, 10);
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      // Stage 2: Slide in matching cards with sliding inertia
+      setTimeout(() => {
+        let delay = 0;
+        cards.forEach(card => {
+          const itemCat = card.getAttribute('data-category');
+          const matches = (category === 'all' || itemCat === category);
+
+          if (matches) {
+            card.style.display = 'flex';
+            card.style.transform = 'translateX(20px)';
+            card.style.opacity = '0';
+            setTimeout(() => {
+              card.classList.remove('slide-out');
+              card.classList.add('slide-in');
+              card.style.transform = 'translateX(0px)';
+              card.style.opacity = '1';
+            }, delay);
+            delay += 35; // gentle cascade slide
+          }
+        });
+      }, 210);
     }
   </script>
 
