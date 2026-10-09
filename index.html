@@ -16,18 +16,18 @@
   <meta name="twitter:card" content="summary">
 
   <!-- Theme Color -->
-  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#09090b" id="meta-theme-color">
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://avatars.githubusercontent.com/u/132790292?s=64&v=4" type="image/png">
+  <!-- Self-contained SVG Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%2309090b'/><circle cx='50' cy='50' r='20' fill='%23f4f4f5'/></svg>">
 
   <!-- Early Theme Bootstrap (Prevents Flash of Unstyled Theme) -->
   <script>
     (function () {
-      var t = 'dark';
+      var fallback = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      var t = fallback;
       try {
-        t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        t = localStorage.getItem('theme') || fallback;
       } catch (e) {}
       document.documentElement.classList.toggle('dark', t !== 'light');
     })();
@@ -39,6 +39,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    /* Minimal Preflight Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+    button {
+      font: inherit;
+    }
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
     /* Design Tokens */
     :root {
       color-scheme: light;
@@ -46,7 +64,7 @@
       --card-bg: rgba(255, 255, 255, 0.85);
       --card-hover: rgba(255, 255, 255, 0.98);
       --border-color: rgba(0, 0, 0, 0.08);
-      --border-hover: rgba(0, 0, 0, 0.28);
+      --border-hover: rgba(0, 0, 0, 0.25);
       --text-primary: #0a0a0c;
       --text-secondary: #52525b;
       --text-muted: #71717a;
@@ -55,8 +73,11 @@
       --slider-bg: #ffffff;
       --slider-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       --card-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 14px 34px -8px rgba(0, 0, 0, 0.1);
       --sheen-color: rgba(0, 0, 0, 0.04);
-      --orb-opacity: 0.18;
+      --orb-a: rgba(0, 0, 0, 0.06);
+      --orb-b: rgba(0, 0, 0, 0.03);
+      --orb-opacity: 0.6;
       --selection-bg: rgba(0, 0, 0, 0.12);
     }
 
@@ -66,7 +87,7 @@
       --card-bg: rgba(18, 18, 22, 0.72);
       --card-hover: rgba(24, 24, 30, 0.85);
       --border-color: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.28);
+      --border-hover: rgba(255, 255, 255, 0.25);
       --text-primary: #f4f4f5;
       --text-secondary: #a1a1aa;
       --text-muted: #8e8e96;
@@ -75,16 +96,12 @@
       --slider-bg: rgba(255, 255, 255, 0.14);
       --slider-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 4px 14px rgba(0, 0, 0, 0.4);
       --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      --card-shadow-hover: 0 20px 44px -8px rgba(0, 0, 0, 0.85), inset 0 1px 1.5px rgba(255, 255, 255, 0.22);
       --sheen-color: rgba(255, 255, 255, 0.08);
-      --orb-opacity: 0.25;
+      --orb-a: rgba(255, 255, 255, 0.1);
+      --orb-b: rgba(161, 161, 170, 0.08);
+      --orb-opacity: 0.3;
       --selection-bg: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Base Reset & Typography */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     ::selection {
@@ -101,7 +118,6 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       -webkit-font-smoothing: antialiased;
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       transition: background-color 0.3s ease, color 0.3s ease;
@@ -118,7 +134,7 @@
       }
     }
 
-    /* Ambient Lighting Canvas (Soft Gradient without Expensive Blur Filters) */
+    /* Ambient Lighting Canvas */
     .orb-canvas {
       position: fixed;
       inset: 0;
@@ -140,7 +156,7 @@
       height: 60vw;
       max-width: 600px;
       max-height: 600px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 68%);
+      background: radial-gradient(circle, var(--orb-a) 0%, transparent 68%);
       animation: floatA 22s ease-in-out infinite alternate;
     }
     .orb-2 {
@@ -150,7 +166,7 @@
       height: 65vw;
       max-width: 640px;
       max-height: 640px;
-      background: radial-gradient(circle, rgba(161, 161, 170, 0.1) 0%, transparent 68%);
+      background: radial-gradient(circle, var(--orb-b) 0%, transparent 68%);
       animation: floatB 26s ease-in-out infinite alternate;
     }
 
@@ -171,18 +187,22 @@
       100% { transform: translateY(-4px); }
     }
 
-    /* Reduced Motion & No-Anim State */
+    /* Reduced Motion & No-Anim Behavior */
     @media (prefers-reduced-motion: reduce) {
-      .orb, .hero-float {
-        animation: none !important;
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
     }
-    body.no-anim .orb,
-    body.no-anim .hero-float {
-      animation: none !important;
+    body.no-anim *, body.no-anim *::before, body.no-anim *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
 
-    /* Layout Containers */
+    /* Container */
     .container {
       max-width: 48rem;
       width: 100%;
@@ -198,6 +218,45 @@
       }
     }
 
+    /* Header & Navigation Breakpoints */
+    .header-wrapper {
+      position: relative;
+      z-index: 50;
+      padding-top: 1.25rem;
+      padding-bottom: 0.5rem;
+    }
+    .header-bar {
+      height: 50px;
+      padding: 0 1rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    @media (min-width: 640px) {
+      .header-bar {
+        padding: 0 1.25rem;
+      }
+    }
+    .nav-quick {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      margin-right: 0.25rem;
+    }
+    .motion-label {
+      display: none;
+      font-size: 11px;
+    }
+    @media (min-width: 640px) {
+      .nav-quick {
+        display: flex;
+      }
+      .motion-label {
+        display: inline;
+      }
+    }
+
     /* Cards */
     .luxury-card {
       position: relative;
@@ -208,7 +267,6 @@
       transition: border-color 0.25s ease, background-color 0.25s ease;
     }
 
-    /* Backdrop-filter scoped only to key elements */
     .header-bar, .hero-card {
       backdrop-filter: blur(24px) saturate(160%);
       -webkit-backdrop-filter: blur(24px) saturate(160%);
@@ -225,12 +283,19 @@
         will-change: transform;
         background: var(--card-hover);
         border-color: var(--border-hover);
+        box-shadow: var(--card-shadow-hover);
         transform: translateY(-2.5px);
       }
     }
 
     .luxury-card:active {
       transform: scale(0.985);
+    }
+
+    /* Focus-visible on card when anchor receives keyboard focus */
+    .luxury-card:has(.card-link:focus-visible) {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 2px;
     }
 
     /* Specular Mouse Sheen */
@@ -264,10 +329,12 @@
       color: var(--text-primary);
       text-decoration: none;
       font-size: 0.75rem;
-      cursor: pointer;
       transition: border-color 0.2s ease, background-color 0.2s ease;
     }
-    .monochrome-chip:hover {
+    a.monochrome-chip, button.monochrome-chip {
+      cursor: pointer;
+    }
+    a.monochrome-chip:hover, button.monochrome-chip:hover {
       border-color: var(--border-hover);
       background: var(--card-hover);
     }
@@ -323,7 +390,7 @@
       font-weight: 600;
     }
 
-    /* CSS Driven Theme Icon Swapping (Zero FOUC / No JS Icon Flickering) */
+    /* CSS-driven theme icon display */
     .theme-icon-sun {
       display: block;
     }
@@ -337,10 +404,87 @@
       display: block;
     }
 
-    /* Stretched Card Link Pattern (Entire Card Clickable, A11y Friendly) */
+    /* Semantic Components & Breakpoint Styling */
+    .site-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+      z-index: 10;
+      padding-top: 0.75rem;
+      padding-bottom: 3.5rem;
+    }
+    @media (min-width: 640px) {
+      .site-main {
+        gap: 2.5rem;
+        padding-top: 1rem;
+        padding-bottom: 4rem;
+      }
+    }
+
+    .hero-card {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    @media (min-width: 640px) {
+      .hero-card {
+        padding: 1.75rem;
+      }
+    }
+
+    .hero-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      border: 1px solid var(--border-color);
+      background: #121214;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    @media (min-width: 640px) {
+      .hero-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+      }
+    }
+
+    .hero-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    @media (min-width: 640px) {
+      .hero-name {
+        font-size: 1.45rem;
+      }
+    }
+
+    .repo-card {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 135px;
+    }
+    @media (min-width: 640px) {
+      .repo-card {
+        padding: 1.5rem;
+      }
+    }
+
     .card-link {
       color: var(--text-primary);
       text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
     .card-link::after {
       content: "";
@@ -353,37 +497,81 @@
       opacity: 0.75;
     }
 
-    /* Grid Layouts */
-    .grid-2 {
+    .repo-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .repo-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      padding-top: 0.875rem;
+      margin-top: 0.875rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stack-card {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-wrapper {
+      position: relative;
+      z-index: 10;
+      padding-top: 1rem;
+      padding-bottom: 2.25rem;
+    }
+    .footer-bar {
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .footer-bar {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* Grids */
+    .grid-projects {
       display: grid;
       grid-template-columns: 1fr;
       gap: 1rem;
     }
     @media (min-width: 640px) {
-      .grid-2 {
+      .grid-projects {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-    .grid-3 {
+
+    .grid-stack {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.875rem;
     }
     @media (min-width: 640px) {
-      .grid-3 {
+      .grid-stack {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    /* Utility Helpers */
+    .flex-center {
+      display: flex;
+      align-items: center;
+    }
     .flex-between {
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
-    .flex-center {
-      display: flex;
-      align-items: center;
     }
     .truncate {
       overflow: hidden;
@@ -400,32 +588,32 @@
     <div class="orb orb-2"></div>
   </div>
 
-  <!-- Header: Non-Sticky, 52px height -->
-  <header style="position: relative; z-index: 50; padding: 1.25rem 0.75rem 0.5rem;">
+  <!-- Header: Non-Sticky, No Horizontal Inset Stacking -->
+  <header class="header-wrapper">
     <div class="container">
-      <div class="luxury-card header-bar flex-between" style="height: 52px; padding: 0 1.25rem; border-radius: 9999px;">
+      <div class="luxury-card header-bar">
         <a href="#" class="code-font flex-center" style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-primary); text-decoration: none; gap: 0.625rem;">
           <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--text-primary); opacity: 0.8;" aria-hidden="true"></span>
           <span>AzyrRuthless</span>
         </a>
 
         <!-- Controls: Theme, Motion, GitHub -->
-        <div class="flex-center" style="gap: 0.625rem; font-size: 0.75rem;">
-          <nav class="flex-center code-font" style="gap: 1rem; margin-right: 0.25rem;" aria-label="Quick links">
+        <div class="flex-center" style="gap: 0.5rem; font-size: 0.75rem;">
+          <nav class="nav-quick code-font" aria-label="Quick links">
             <a href="#projects" style="color: var(--text-muted); text-decoration: none; padding: 0.25rem 0;">projects</a>
             <a href="#stack" style="color: var(--text-muted); text-decoration: none; padding: 0.25rem 0;">stack</a>
           </nav>
 
-          <!-- Motion Toggle (Pure SVG, Accessible Label) -->
-          <button id="anim-toggle" class="monochrome-chip code-font" style="padding: 0.25rem 0.625rem;" aria-label="Toggle motion animation">
-            <svg class="code-font" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Motion Toggle -->
+          <button type="button" id="anim-toggle" class="monochrome-chip code-font" style="padding: 0.25rem 0.625rem;" aria-label="Toggle motion animation" aria-pressed="true">
+            <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
             </svg>
-            <span id="anim-label" style="font-size: 11px;">Motion</span>
+            <span id="anim-label" class="motion-label">Motion</span>
           </button>
 
-          <!-- Theme Toggle (Pure CSS Icon Swap, Accessible Label) -->
-          <button id="theme-toggle" class="monochrome-chip" style="width: 32px; height: 32px; padding: 0; justify-content: center;" aria-label="Toggle light or dark theme">
+          <!-- Theme Toggle -->
+          <button type="button" id="theme-toggle" class="monochrome-chip" style="width: 32px; height: 32px; padding: 0; justify-content: center;" aria-label="Toggle light or dark theme" aria-pressed="false">
             <svg class="theme-icon-moon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
@@ -452,24 +640,25 @@
   </header>
 
   <!-- Main Content -->
-  <main class="container" style="position: relative; z-index: 10; padding-top: 1rem; padding-bottom: 3.5rem; display: flex; flex-direction: column; gap: 2.25rem;">
+  <main class="container site-main">
 
-    <!-- Profile Hero (Symmetrical Box Padding) -->
+    <!-- Profile Hero -->
     <section class="hero-float">
-      <div class="luxury-card hero-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+      <div class="luxury-card hero-card">
         <div class="flex-center" style="gap: 1.25rem;">
           <img 
+            id="avatar"
             src="https://avatars.githubusercontent.com/u/132790292?s=160&v=4" 
             alt="Azyr Ruthless avatar" 
             width="80" 
             height="80" 
             decoding="async"
-            style="width: 72px; height: 72px; border-radius: 18px; border: 1px solid var(--border-color); background: #121214; object-fit: cover; flex-shrink: 0;"
+            class="hero-avatar"
           >
 
           <div style="min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 0.25rem;">
-            <div class="flex-center" style="gap: 0.625rem; flex-wrap: wrap;">
-              <h1 style="font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary);" class="truncate">
+            <div class="flex-center" style="gap: 0.5rem; flex-wrap: wrap;">
+              <h1 class="hero-name truncate">
                 Azyr Ruthless
               </h1>
               <span class="code-font monochrome-chip" style="font-size: 11px; padding: 0.125rem 0.625rem; color: var(--text-muted);">
@@ -501,7 +690,7 @@
       </div>
     </section>
 
-    <!-- Projects Section with Accessible Segmented Filter -->
+    <!-- Projects Section -->
     <section id="projects" style="display: flex; flex-direction: column; gap: 1rem;">
       <div class="flex-between" style="flex-wrap: wrap; gap: 0.75rem;">
         <h2 style="font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
@@ -509,7 +698,7 @@
           <span>Repositories</span>
         </h2>
 
-        <!-- Accessible Segmented Control Bar -->
+        <!-- Accessible Segmented Filter -->
         <div class="segmented-bar code-font" role="group" aria-label="Filter repositories by category">
           <div id="filter-slider" aria-hidden="true"></div>
           <button type="button" class="filter-btn active" data-cat="all" aria-pressed="true">all</button>
@@ -519,119 +708,119 @@
         </div>
       </div>
 
-      <!-- Projects Grid (Stretched Link for 100% Clickable Affordance) -->
-      <div id="projects-grid" class="grid-2">
+      <!-- Projects Grid -->
+      <div id="projects-grid" class="grid-projects">
 
         <!-- 1: kernel_xiaomi_sm6250 -->
-        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="kernel">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>kernel_xiaomi_sm6250</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               Linux kernel source tree for Xiaomi SM6250 (Miatoll) devices.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             SM6250 • DTS • Clang
           </div>
         </article>
 
         <!-- 2: Kernel-Builder -->
-        <article class="project-item luxury-card" data-category="tool" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="tool">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>Kernel-Builder</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Shell</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               Shell build scripts to automate Android kernel compilation with Clang.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             Automation • Toolchain
           </div>
         </article>
 
         <!-- 3: morphe-magisk-module -->
-        <article class="project-item luxury-card" data-category="module" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="module">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>morphe-magisk-module</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Shell</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               Personal Magisk & KernelSU module for device tweaks and thermals.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             Magisk • KernelSU
           </div>
         </article>
 
         <!-- 4: morphe-cli -->
-        <article class="project-item luxury-card" data-category="tool" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="tool">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>morphe-cli</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">Kotlin</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               CLI patching utility designed for Android terminal environments.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             CLI • Kotlin
           </div>
         </article>
 
         <!-- 5: kernel_msm-4.19 -->
-        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="kernel">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>kernel_msm-4.19</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               Qualcomm MSM 4.19 common kernel tracking upstream LTS commits.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             Kernel 4.19 • LTS
           </div>
         </article>
 
         <!-- 6: device_xiaomi_miatoll -->
-        <article class="project-item luxury-card" data-category="kernel" style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <article class="project-item luxury-card repo-card" data-category="kernel">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <div class="flex-between" style="gap: 0.5rem;">
-              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="card-link code-font flex-center" style="font-size: 0.8125rem; font-weight: 500; gap: 0.25rem;">
+              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="card-link code-font">
                 <span>device_xiaomi_miatoll</span>
                 <span style="font-size: 10px; color: var(--text-muted);" aria-hidden="true">↗</span>
               </a>
               <span class="code-font monochrome-chip" style="font-size: 10px; padding: 0.125rem 0.5rem; color: var(--text-muted);">C++</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;">
+            <p class="repo-desc">
               Device trees and HAL configurations for Miatoll custom ROM builds.
             </p>
           </div>
-          <div class="code-font" style="font-size: 10px; color: var(--text-muted); padding-top: 0.875rem; margin-top: 0.875rem; border-top: 1px solid var(--border-color);">
+          <div class="code-font repo-meta">
             AOSP • Device Tree
           </div>
         </article>
@@ -646,8 +835,8 @@
         <span>Toolset & Domains</span>
       </h2>
 
-      <div class="grid-3">
-        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <div class="grid-stack">
+        <div class="luxury-card stack-card">
           <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Kernel & Systems
           </p>
@@ -656,7 +845,7 @@
           </p>
         </div>
 
-        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+        <div class="luxury-card stack-card">
           <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Root & Modules
           </p>
@@ -665,7 +854,7 @@
           </p>
         </div>
 
-        <div class="luxury-card" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+        <div class="luxury-card stack-card">
           <p class="code-font" style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em;">
             Languages & Env
           </p>
@@ -678,10 +867,10 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer style="position: relative; z-index: 10; padding: 1.5rem 0.75rem 2rem;">
+  <!-- Footer: Block Padding Only, Responsive Flex Alignment -->
+  <footer class="footer-wrapper">
     <div class="container">
-      <div class="luxury-card flex-between" style="padding: 1rem 1.25rem; border-radius: 16px; font-size: 0.75rem; color: var(--text-muted); flex-wrap: wrap; gap: 0.75rem;">
+      <div class="luxury-card footer-bar">
         <span class="code-font">Azyr Ruthless • GitHub Pages</span>
         <div class="flex-center code-font" style="gap: 1.25rem;">
           <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none;">github</a>
@@ -692,20 +881,22 @@
     </div>
   </footer>
 
-  <!-- Scripts: Event Delegation, WAAPI Filter, Throttled Sheen, Resilient Theme/Motion -->
+  <!-- Scripts -->
   <script>
     (function () {
       'use strict';
 
-      // 1. Avatar fallback without infinite loop risk
-      const avatarImg = document.querySelector('img[alt="Azyr Ruthless avatar"]');
-      if (avatarImg) {
-        avatarImg.addEventListener('error', function () {
-          this.src = 'https://github.com/identicons/AzyrRuthless.png';
-        }, { once: true });
+      // 1. Resilient Avatar Fallback (Handles Already-Failed State)
+      const avatar = document.getElementById('avatar');
+      if (avatar) {
+        const fallback = function () {
+          avatar.src = 'https://github.com/identicons/AzyrRuthless.png';
+        };
+        avatar.addEventListener('error', fallback, { once: true });
+        if (avatar.complete && avatar.naturalWidth === 0) fallback();
       }
 
-      // 2. Motion State Management (Guarded localStorage)
+      // 2. Motion State Management (Consistent with reduced-motion media query)
       const animToggle = document.getElementById('anim-toggle');
       const animLabel = document.getElementById('anim-label');
 
@@ -714,12 +905,13 @@
           const saved = localStorage.getItem('anim');
           if (saved !== null) return saved === 'true';
         } catch (e) {}
-        return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
       }
 
       function setMotion(enabled, persist) {
         document.body.classList.toggle('no-anim', !enabled);
         if (animLabel) animLabel.textContent = enabled ? 'Motion' : 'Static';
+        if (animToggle) animToggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
         if (persist) {
           try { localStorage.setItem('anim', enabled ? 'true' : 'false'); } catch (e) {}
         }
@@ -734,18 +926,33 @@
         });
       }
 
-      // 3. Theme Toggle (Guarded localStorage, class-driven icons)
+      // 3. Theme Toggle & Meta Theme Color Sync
       const themeToggle = document.getElementById('theme-toggle');
+      const metaThemeColor = document.getElementById('meta-theme-color');
+
+      function updateThemeMeta(isDark) {
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', isDark ? '#09090b' : '#f8f9fa');
+        }
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        }
+      }
+
+      // Initial meta sync
+      updateThemeMeta(document.documentElement.classList.contains('dark'));
+
       if (themeToggle) {
         themeToggle.addEventListener('click', function () {
           const isDark = document.documentElement.classList.contains('dark');
           const next = !isDark;
           document.documentElement.classList.toggle('dark', next);
+          updateThemeMeta(next);
           try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch (e) {}
         });
       }
 
-      // 4. Sliding Segmented Bar Synchronization (Fonts + ResizeObserver)
+      // 4. Sliding Segmented Bar Sync (Fonts + ResizeObserver)
       const slider = document.getElementById('filter-slider');
       const bar = slider ? slider.parentElement : null;
 
@@ -768,7 +975,7 @@
         document.fonts.ready.then(syncSlider);
       }
 
-      // 5. WAAPI-driven Filter (Cancellable, Individual Translate/Scale, No Inline Styles Left Behind)
+      // 5. WAAPI Filter (Cancellable, CSS Display Restore)
       let filterRun = 0;
       const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
@@ -779,7 +986,7 @@
         const matches = function (c) { return cat === 'all' || c.dataset.category === cat; };
         const shown = function (c) { return c.style.display !== 'none'; };
         const ms = function (n) {
-          return (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+          return ((window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
                   document.body.classList.contains('no-anim')) ? 0 : n;
         };
 
@@ -790,7 +997,7 @@
         });
         moveSliderTo(btn);
 
-        // Cancel previous filter animations
+        // Cancel running animations on cards
         cards.forEach(function (c) {
           c.getAnimations().forEach(function (a) {
             if (a.id === 'filter') a.cancel();
@@ -812,7 +1019,7 @@
           exits.forEach(function (a) { a.cancel(); });
           leaving.forEach(function (c) { c.style.display = 'none'; });
           entering.forEach(function (c, i) {
-            c.style.display = 'flex';
+            c.style.display = '';
             c.animate(
               { opacity: [0, 1], translate: ['20px 0', '0 0'] },
               { id: 'filter', duration: ms(300), delay: ms(i * 35), easing: EASE, fill: 'backwards' }
@@ -821,7 +1028,6 @@
         });
       }
 
-      // Event delegation for segmented filter bar
       if (bar) {
         bar.addEventListener('click', function (e) {
           const btn = e.target.closest('.filter-btn');
