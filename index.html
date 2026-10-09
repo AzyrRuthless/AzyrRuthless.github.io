@@ -17,12 +17,9 @@
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            accent: '#38bdf8',
-          },
           fontFamily: {
             mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'MiSans', 'Inter', 'Roboto', 'system-ui', 'sans-serif'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
           }
         }
       }
@@ -31,65 +28,63 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     ::selection {
-      background: rgba(56, 189, 248, 0.35);
+      background: rgba(255, 255, 255, 0.2);
       color: currentColor;
     }
 
-    /* Material 3 & MIUIX Design Tokens */
+    /* Luxurious Monochromatic Design Tokens */
     :root {
-      --md-surface: #f7f9fd;
-      --md-surface-container: rgba(255, 255, 255, 0.85);
-      --md-surface-container-high: rgba(255, 255, 255, 0.95);
-      --md-outline: rgba(0, 0, 0, 0.08);
-      --md-outline-variant: rgba(0, 0, 0, 0.04);
-      --md-on-surface: #191c20;
-      --md-on-surface-variant: #43474e;
-      --md-primary: #006688;
-      --md-primary-container: #c2e8ff;
-      --md-on-primary-container: #001e2b;
-      --miuix-chip-bg: rgba(0, 0, 0, 0.05);
-      --card-shadow: 0 8px 28px -6px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+      --bg-main: #f8f9fa;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-hover: rgba(255, 255, 255, 0.98);
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 0, 0, 0.28);
+      --text-primary: #0a0a0c;
+      --text-secondary: #52525b;
+      --text-muted: #71717a;
+      --tag-bg: rgba(0, 0, 0, 0.04);
+      --tag-border: rgba(0, 0, 0, 0.08);
       --slider-bg: #ffffff;
-      --slider-shadow: 0 3px 10px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-      --orb-opacity: 0.45;
+      --slider-shadow: 0 2px 10px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --card-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.05);
+      --orb-opacity: 0.25;
     }
 
     html.dark {
-      --md-surface: #0b0e14;
-      --md-surface-container: rgba(18, 22, 31, 0.75);
-      --md-surface-container-high: rgba(26, 32, 44, 0.85);
-      --md-outline: rgba(255, 255, 255, 0.1);
-      --md-outline-variant: rgba(255, 255, 255, 0.05);
-      --md-on-surface: #e2e8f0;
-      --md-on-surface-variant: #94a3b8;
-      --md-primary: #78d1ff;
-      --md-primary-container: #004c67;
-      --md-on-primary-container: #c2e8ff;
-      --miuix-chip-bg: rgba(255, 255, 255, 0.06);
-      --card-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-      --slider-bg: rgba(255, 255, 255, 0.16);
-      --slider-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-      --orb-opacity: 0.6;
+      --bg-main: #09090b;
+      --card-bg: rgba(18, 18, 22, 0.72);
+      --card-hover: rgba(24, 24, 30, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.28);
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --tag-bg: rgba(255, 255, 255, 0.04);
+      --tag-border: rgba(255, 255, 255, 0.09);
+      --slider-bg: rgba(255, 255, 255, 0.14);
+      --slider-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 4px 14px rgba(0, 0, 0, 0.4);
+      --card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      --orb-opacity: 0.35;
     }
 
     body {
-      background-color: var(--md-surface);
-      color: var(--md-on-surface);
-      font-family: -apple-system, BlinkMacSystemFont, 'MiSans', 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
       overflow-x: hidden;
       width: 100%;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.35s ease, color 0.35s ease;
     }
     .code-font {
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Ambient Dynamic Orbs */
+    /* Monochromatic Ambient Platinum / Moonlight Auras (No rainbow) */
     .orb-canvas {
       position: fixed;
       inset: 0;
@@ -97,60 +92,45 @@
       pointer-events: none;
       z-index: 0;
       opacity: var(--orb-opacity);
-      transition: opacity 0.3s ease;
+      transition: opacity 0.35s ease;
     }
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(95px);
+      filter: blur(120px);
       will-change: transform;
       pointer-events: none;
     }
     .orb-1 {
-      top: -10%;
-      left: 10%;
+      top: -15%;
+      left: 15%;
       width: 60vw;
       height: 60vw;
-      max-width: 560px;
-      max-height: 560px;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.28) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 70%);
-      animation: floatA 15s ease-in-out infinite alternate;
+      max-width: 600px;
+      max-height: 600px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+      animation: floatA 18s ease-in-out infinite alternate;
     }
     .orb-2 {
-      top: 35%;
+      top: 40%;
       right: -10%;
       width: 65vw;
       height: 65vw;
-      max-width: 600px;
-      max-height: 600px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.24) 0%, rgba(139, 92, 246, 0.06) 50%, transparent 70%);
-      animation: floatB 18s ease-in-out infinite alternate;
-    }
-    .orb-3 {
-      bottom: -10%;
-      left: 20%;
-      width: 55vw;
-      height: 55vw;
-      max-width: 520px;
-      max-height: 520px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
-      animation: floatC 17s ease-in-out infinite alternate;
+      max-width: 640px;
+      max-height: 640px;
+      background: radial-gradient(circle, rgba(161, 161, 170, 0.06) 0%, transparent 70%);
+      animation: floatB 22s ease-in-out infinite alternate;
     }
 
     @keyframes floatA {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(50px, 60px, 0) scale(1.14); }
-      100% { transform: translate3d(-30px, 75px, 0) scale(0.94); }
+      50% { transform: translate3d(40px, 50px, 0) scale(1.1); }
+      100% { transform: translate3d(-30px, 60px, 0) scale(0.95); }
     }
     @keyframes floatB {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-55px, -40px, 0) scale(1.1); }
-      100% { transform: translate3d(35px, -55px, 0) scale(0.92); }
-    }
-    @keyframes floatC {
-      0% { transform: translate3d(0, 0, 0) scale(0.96); }
-      50% { transform: translate3d(-35px, -45px, 0) scale(1.16); }
-      100% { transform: translate3d(45px, -20px, 0) scale(1.02); }
+      50% { transform: translate3d(-50px, -35px, 0) scale(1.08); }
+      100% { transform: translate3d(30px, -45px, 0) scale(0.92); }
     }
 
     .float-card {
@@ -158,7 +138,7 @@
     }
     @keyframes gentleBob {
       0% { transform: translateY(0px); }
-      100% { transform: translateY(-5px); }
+      100% { transform: translateY(-4px); }
     }
 
     body.no-anim .orb,
@@ -167,45 +147,45 @@
       animation: none !important;
     }
 
-    /* M3 Surface Card with MIUIX Squircle Curvature (26px) */
-    .miuix-card {
+    /* Luxurious Minimalist Card */
+    .luxury-card {
       position: relative;
-      background: var(--md-surface-container);
-      backdrop-filter: blur(28px) saturate(190%);
-      -webkit-backdrop-filter: blur(28px) saturate(190%);
-      border: 1px solid var(--md-outline);
-      border-radius: 26px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
       box-shadow: var(--card-shadow);
-      transition: transform 0.28s cubic-bezier(0.34, 1.35, 0.64, 1),
-                  border-color 0.25s ease,
-                  box-shadow 0.28s cubic-bezier(0.34, 1.35, 0.64, 1),
-                  background-color 0.25s ease;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.28s ease,
+                  box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.28s ease;
       will-change: transform, box-shadow;
     }
 
-    /* MIUIX Tactile Press Physics */
-    .miuix-card:hover {
-      transform: translateY(-3px) scale(1.008);
-      border-color: var(--md-primary);
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 0 25px -5px rgba(56, 189, 248, 0.25);
+    .luxury-card:hover {
+      background: var(--card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2.5px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     }
-    html.dark .miuix-card:hover {
-      box-shadow: 0 24px 44px -10px rgba(0, 0, 0, 0.75), 0 0 28px -5px rgba(56, 189, 248, 0.3);
+    html.dark .luxury-card:hover {
+      box-shadow: 0 24px 44px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1.5px rgba(255, 255, 255, 0.25);
     }
-    .miuix-card:active {
+    .luxury-card:active {
       transform: scale(0.985);
       transition-duration: 0.12s;
     }
 
-    /* Pointer Sheen */
-    .miuix-card::before {
+    /* Soft Brushed Sheen */
+    .luxury-card::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
         420px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.08),
         transparent 65%
       );
       opacity: 0;
@@ -213,37 +193,37 @@
       pointer-events: none;
       z-index: 1;
     }
-    .miuix-card:hover::before, .miuix-card:active::before {
+    .luxury-card:hover::before, .luxury-card:active::before {
       opacity: 1;
     }
 
-    /* Material 3 & MIUIX Chips */
-    .m3-chip {
-      background: var(--miuix-chip-bg);
+    /* Minimalist Monochromatic Chips */
+    .monochrome-chip {
+      background: var(--tag-bg);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--md-outline);
+      border: 1px solid var(--tag-border);
       border-radius: 9999px;
-      transition: all 0.2s cubic-bezier(0.34, 1.35, 0.64, 1);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .m3-chip:hover {
-      background: rgba(14, 165, 233, 0.15);
-      border-color: var(--md-primary);
-      transform: scale(1.03);
+    .monochrome-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-hover);
+      transform: scale(1.02);
     }
-    .m3-chip:active {
+    .monochrome-chip:active {
       transform: scale(0.96);
     }
 
-    /* M3 & MIUIX Segmented Button Bar */
-    .m3-segmented {
+    /* Segmented Control Bar */
+    .segmented-bar {
       position: relative;
       display: inline-flex;
       align-items: center;
-      background: var(--miuix-chip-bg);
+      background: var(--tag-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--md-outline);
+      border: 1px solid var(--border-color);
       border-radius: 9999px;
       padding: 3px;
       user-select: none;
@@ -258,37 +238,37 @@
       background: var(--slider-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--md-outline);
+      border: 1px solid var(--border-color);
       box-shadow: var(--slider-shadow);
-      transition: transform 0.32s cubic-bezier(0.34, 1.25, 0.64, 1),
-                  width 0.32s cubic-bezier(0.34, 1.25, 0.64, 1);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  width 0.32s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       z-index: 1;
     }
 
-    .m3-segmented button {
+    .segmented-bar button {
       position: relative;
       z-index: 2;
       border-radius: 9999px;
       min-height: 32px;
       padding: 0 14px;
       font-size: 11px;
-      color: var(--md-on-surface-variant);
+      color: var(--text-muted);
       transition: color 0.2s ease;
       white-space: nowrap;
     }
-    .m3-segmented button:hover {
-      color: var(--md-on-surface);
+    .segmented-bar button:hover {
+      color: var(--text-primary);
     }
-    .m3-segmented button.active {
-      color: var(--md-on-surface);
+    .segmented-bar button.active {
+      color: var(--text-primary);
       font-weight: 600;
     }
 
-    /* Sliding cards */
+    /* Sliding project items */
     .project-item {
-      transition: opacity 0.3s cubic-bezier(0.34, 1.2, 0.64, 1),
-                  transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .project-item.slide-out {
       opacity: 0;
@@ -303,103 +283,121 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between relative">
 
-  <!-- Ambient Dynamic Orbs -->
+  <!-- Monochromatic Ambient Lighting Canvas -->
   <div class="orb-canvas">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
   </div>
 
-  <!-- Header (Non-sticky, M3 Floating Capsule) -->
-  <header class="relative z-50 px-3 sm:px-6 pt-4 pb-2">
-    <div class="max-w-3xl mx-auto h-12 sm:h-13 miuix-card px-4 sm:px-6 flex items-center justify-between !rounded-full">
-      <a href="#" class="code-font text-xs font-semibold tracking-wide text-[var(--md-on-surface)] hover:text-accent transition flex items-center gap-2 group">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
+  <!-- Header: Non-Sticky, Monochromatic -->
+  <header class="relative z-50 px-3 sm:px-6 pt-5 pb-2">
+    <div class="max-w-3xl mx-auto h-12 sm:h-13 luxury-card px-4 sm:px-6 flex items-center justify-between !rounded-full">
+      <a href="#" class="code-font text-xs font-semibold tracking-wider text-[var(--text-primary)] hover:opacity-75 transition flex items-center gap-2.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] opacity-80"></span>
         <span>AzyrRuthless</span>
       </a>
 
-      <!-- Controls & Nav -->
-      <div class="flex items-center gap-2.5 sm:gap-4 text-xs code-font">
-        <nav class="hidden sm:flex items-center gap-4 text-[var(--md-on-surface-variant)]">
-          <a href="#projects" class="hover:text-[var(--md-on-surface)] transition py-1">projects</a>
-          <a href="#stack" class="hover:text-[var(--md-on-surface)] transition py-1">stack</a>
+      <!-- Controls: Pure Minimalist SVG Icons (No Emojis) -->
+      <div class="flex items-center gap-2 sm:gap-3 text-xs code-font">
+        <nav class="hidden sm:flex items-center gap-4 text-[var(--text-muted)] mr-1">
+          <a href="#projects" class="hover:text-[var(--text-primary)] transition py-1">projects</a>
+          <a href="#stack" class="hover:text-[var(--text-primary)] transition py-1">stack</a>
         </nav>
 
-        <!-- Animation Toggle -->
-        <button id="anim-toggle" onclick="toggleAnimation()" class="m3-chip px-2.5 py-1 text-[var(--md-on-surface)] flex items-center gap-1.5" title="Toggle Motion & Floating Animation">
-          <span id="anim-icon">⚡</span>
-          <span class="hidden sm:inline text-[11px]" id="anim-label">Anim</span>
+        <!-- Animation Toggle (Minimal Motion Wave Icon) -->
+        <button id="anim-toggle" onclick="toggleAnimation()" class="monochrome-chip px-2.5 py-1 text-[var(--text-primary)] flex items-center gap-1.5" title="Toggle Motion Animation">
+          <svg id="anim-icon-svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          <span class="hidden sm:inline text-[11px]" id="anim-label">Motion</span>
         </button>
 
-        <!-- Theme Toggle -->
-        <button id="theme-toggle" onclick="toggleTheme()" class="m3-chip px-2.5 py-1 text-[var(--md-on-surface)] flex items-center gap-1.5" title="Toggle Light / Dark Mode">
-          <span id="theme-icon">🌙</span>
+        <!-- Theme Toggle (Minimal Sun / Moon SVG Icon) -->
+        <button id="theme-toggle" onclick="toggleTheme()" class="monochrome-chip p-1.5 text-[var(--text-primary)] flex items-center justify-center w-8 h-8" title="Toggle Theme">
+          <!-- Moon Icon (Default for dark) -->
+          <svg id="theme-icon-moon" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <!-- Sun Icon (Hidden initially in dark mode) -->
+          <svg id="theme-icon-sun" class="w-3.5 h-3.5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
         </button>
 
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline font-medium transition py-1">github ↗</a>
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-[var(--text-primary)] hover:opacity-70 font-medium transition py-1 ml-1 flex items-center gap-1">
+          <span>github</span>
+          <span class="text-[10px] text-[var(--text-muted)]">↗</span>
+        </a>
       </div>
     </div>
   </header>
 
   <main class="max-w-3xl w-full mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-14 sm:pb-20 flex-1 space-y-8 sm:space-y-12 relative z-10">
 
-    <!-- Profile Hero (MIUIX Grouped Card Style + Floating) -->
+    <!-- Profile Hero (Symmetrical Box Padding + Floating) -->
     <section class="float-card">
-      <div class="miuix-card p-6 sm:p-7 space-y-5">
+      <div class="luxury-card p-6 sm:p-7 space-y-5">
         <div class="flex items-center gap-4 sm:gap-5">
           <div class="relative shrink-0">
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-indigo-500 rounded-[22px] blur opacity-40"></div>
             <img 
               src="https://avatars.githubusercontent.com/u/132790292?v=4" 
               alt="Azyr Ruthless" 
-              class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-[20px] border border-[var(--md-outline)] bg-[#0c101a] object-cover shadow-lg"
+              class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-[20px] border border-[var(--border-color)] bg-[#121214] object-cover shadow-md"
               onerror="this.src='https://github.com/identicons/AzyrRuthless.png'"
             >
           </div>
 
           <div class="space-y-1 min-w-0 flex-1">
             <div class="flex items-center gap-2 flex-wrap">
-              <h1 class="text-xl sm:text-2xl font-bold text-[var(--md-on-surface)] tracking-tight truncate">
+              <h1 class="text-xl sm:text-2xl font-semibold text-[var(--text-primary)] tracking-tight truncate">
                 Azyr Ruthless
               </h1>
-              <span class="code-font text-[10px] sm:text-[11px] m3-chip text-cyan-500 dark:text-cyan-400 px-2.5 py-0.5">
+              <span class="code-font text-[10px] sm:text-[11px] monochrome-chip text-[var(--text-muted)] px-2.5 py-0.5">
                 @AzyrRuthless
               </span>
             </div>
-            <p class="text-xs sm:text-sm text-[var(--md-on-surface-variant)]">
+            <p class="text-xs sm:text-sm text-[var(--text-secondary)] font-normal">
               Android kernels, Qualcomm platforms, & root tools.
             </p>
           </div>
         </div>
 
-        <p class="text-xs sm:text-[13px] text-[var(--md-on-surface-variant)] leading-relaxed border-t border-[var(--md-outline-variant)] pt-4">
-          Mostly tinkering with Linux kernel trees, writing build scripts, and maintaining personal Magisk/KernelSU setups.
+        <p class="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-color)] pt-4">
+          Tinkering with Linux kernel trees, writing build scripts, and maintaining personal Magisk/KernelSU setups.
         </p>
 
         <div class="flex flex-wrap items-center gap-2.5 code-font text-xs pt-1">
-          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="m3-chip px-3.5 py-1.5 text-[var(--md-on-surface)] flex items-center gap-1.5 min-h-[34px]">
+          <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip px-3.5 py-1.5 text-[var(--text-primary)] flex items-center gap-1.5 min-h-[34px]">
             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             <span>GitHub</span>
-            <span class="text-[var(--md-on-surface-variant)]">↗</span>
+            <span class="text-[var(--text-muted)]">↗</span>
           </a>
-          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="m3-chip px-3.5 py-1.5 text-[var(--md-on-surface)] flex items-center gap-1.5 min-h-[34px]">
+          <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="monochrome-chip px-3.5 py-1.5 text-[var(--text-primary)] flex items-center gap-1.5 min-h-[34px]">
             <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             <span>X</span>
-            <span class="text-[var(--md-on-surface-variant)]">↗</span>
+            <span class="text-[var(--text-muted)]">↗</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section with M3 Segmented Bar -->
+    <!-- Projects Section with Monochromatic Sliding Segmented Bar -->
     <section id="projects" class="space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h2 class="text-lg font-semibold text-[var(--md-on-surface)] tracking-tight flex items-center gap-2">
-          <span class="code-font text-cyan-400 text-sm">#</span> Repositories
+        <h2 class="text-base font-semibold text-[var(--text-primary)] tracking-wide flex items-center gap-2">
+          <span class="code-font text-[var(--text-muted)] text-xs">01.</span> Repositories
         </h2>
 
-        <!-- M3 & MIUIX Sliding Segmented Control -->
-        <div class="m3-segmented code-font overflow-x-auto max-w-full">
+        <!-- Monochromatic Segmented Control -->
+        <div class="segmented-bar code-font overflow-x-auto max-w-full">
           <div id="filter-slider"></div>
 
           <button id="btn-all" onclick="filterProjects('all', this)" class="filter-btn active" data-cat="all">all</button>
@@ -413,115 +411,115 @@
       <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <!-- 1: kernel_xiaomi_sm6250 -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">kernel_xiaomi_sm6250</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-amber-500 dark:text-amber-300 px-2 py-0.5">C</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               Linux kernel source tree for Xiaomi SM6250 (Miatoll) devices.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             SM6250 • DTS • Clang
           </div>
         </div>
 
         <!-- 2: Kernel-Builder -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">Kernel-Builder</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-emerald-600 dark:text-emerald-300 px-2 py-0.5">Shell</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Shell</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               Shell build scripts to automate Android kernel compilation with Clang.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             Automation • Toolchain
           </div>
         </div>
 
         <!-- 3: morphe-magisk-module -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="module">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="module">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">morphe-magisk-module</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-emerald-600 dark:text-emerald-300 px-2 py-0.5">Shell</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Shell</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               Personal Magisk & KernelSU module for device tweaks and thermals.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             Magisk • KernelSU
           </div>
         </div>
 
         <!-- 4: morphe-cli -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="tool">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">morphe-cli</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-violet-600 dark:text-violet-300 px-2 py-0.5">Kotlin</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">Kotlin</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               CLI patching utility designed for Android terminal environments.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             CLI • Kotlin
           </div>
         </div>
 
         <!-- 5: kernel_msm-4.19 -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">kernel_msm-4.19</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-amber-500 dark:text-amber-300 px-2 py-0.5">C</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               Qualcomm MSM 4.19 common kernel tracking upstream LTS commits.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             Kernel 4.19 • LTS
           </div>
         </div>
 
         <!-- 6: device_xiaomi_miatoll -->
-        <div class="project-item miuix-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
+        <div class="project-item luxury-card p-5 sm:p-6 flex flex-col justify-between" data-category="kernel">
           <div class="space-y-2.5">
             <div class="flex items-center justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--md-on-surface)] hover:text-cyan-400 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
+              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-medium text-[var(--text-primary)] hover:opacity-75 transition code-font text-xs sm:text-sm flex items-center gap-1 group">
                 <span class="group-hover:underline">device_xiaomi_miatoll</span>
-                <span class="text-[10px] text-[var(--md-on-surface-variant)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+                <span class="text-[10px] text-[var(--text-muted)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[10px] m3-chip text-blue-600 dark:text-blue-300 px-2 py-0.5">C++</span>
+              <span class="code-font text-[10px] monochrome-chip text-[var(--text-muted)] px-2 py-0.5">C++</span>
             </div>
-            <p class="text-xs text-[var(--md-on-surface-variant)] leading-relaxed">
+            <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
               Device trees and HAL configurations for Miatoll custom ROM builds.
             </p>
           </div>
-          <div class="code-font text-[10px] text-[var(--md-on-surface-variant)] pt-3.5 mt-3.5 border-t border-[var(--md-outline-variant)]">
+          <div class="code-font text-[10px] text-[var(--text-muted)] pt-3.5 mt-3.5 border-t border-[var(--border-color)]">
             AOSP • Device Tree
           </div>
         </div>
@@ -529,40 +527,40 @@
       </div>
     </section>
 
-    <!-- Stack Section (Clean 3-Box Material 3 & MIUIX Container) -->
+    <!-- Stack Section (Monochromatic) -->
     <section id="stack" class="space-y-4">
-      <h2 class="text-lg font-semibold text-[var(--md-on-surface)] tracking-tight flex items-center gap-2">
-        <span class="code-font text-cyan-400 text-sm">#</span> Toolset & Domains
+      <h2 class="text-base font-semibold text-[var(--text-primary)] tracking-wide flex items-center gap-2">
+        <span class="code-font text-[var(--text-muted)] text-xs">02.</span> Toolset & Domains
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 code-font text-xs">
         
         <!-- Kernel -->
-        <div class="miuix-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--md-on-surface)] font-semibold text-xs flex items-center gap-1.5">
-            <span class="text-cyan-400">⚡</span> Kernel & Systems
+        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
+          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+            Kernel & Systems
           </p>
-          <p class="text-[var(--md-on-surface-variant)] leading-relaxed text-[11px]">
+          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
             Linux 4.14 / 4.19, Qualcomm MSM, Device Tree (DTS), Clang/LLVM.
           </p>
         </div>
 
         <!-- Root -->
-        <div class="miuix-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--md-on-surface)] font-semibold text-xs flex items-center gap-1.5">
-            <span class="text-indigo-400">🛡️</span> Root & Frameworks
+        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
+          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+            Root & Modules
           </p>
-          <p class="text-[var(--md-on-surface-variant)] leading-relaxed text-[11px]">
+          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
             KernelSU / Next, Magisk modules, Zygisk, systemless scripts.
           </p>
         </div>
 
         <!-- Languages & Env -->
-        <div class="miuix-card p-5 flex flex-col justify-between space-y-2">
-          <p class="text-[var(--md-on-surface)] font-semibold text-xs flex items-center gap-1.5">
-            <span class="text-emerald-400">🛠️</span> Languages & Env
+        <div class="luxury-card p-5 flex flex-col justify-between space-y-2">
+          <p class="text-[var(--text-primary)] font-semibold text-xs tracking-wide">
+            Languages & Env
           </p>
-          <p class="text-[var(--md-on-surface-variant)] leading-relaxed text-[11px]">
+          <p class="text-[var(--text-secondary)] leading-relaxed text-[11px]">
             C, POSIX Shell / Bash, Kotlin, Linux Workstation (Debian/Arch).
           </p>
         </div>
@@ -574,28 +572,32 @@
 
   <!-- Footer -->
   <footer class="py-6 sm:py-8 relative z-10 px-3 sm:px-6">
-    <div class="max-w-3xl mx-auto miuix-card px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs code-font text-[var(--md-on-surface-variant)] !rounded-2xl">
+    <div class="max-w-3xl mx-auto luxury-card px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs code-font text-[var(--text-muted)] !rounded-2xl">
       <span>Azyr Ruthless • GitHub Pages</span>
       <div class="flex items-center gap-5">
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--md-on-surface)] transition">github</a>
-        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--md-on-surface)] transition">twitter</a>
-        <a href="#" class="hover:text-[var(--md-on-surface)] transition">top ↑</a>
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--text-primary)] transition">github</a>
+        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--text-primary)] transition">twitter</a>
+        <a href="#" class="hover:text-[var(--text-primary)] transition">top ↑</a>
       </div>
     </div>
   </footer>
 
   <!-- Script: Theme Toggle, Animation Toggle, Sliding Filter, Mouse Track -->
   <script>
-    // 1. Theme Management
+    // 1. Theme Management (SVG-based)
     function applyTheme(theme) {
       const html = document.documentElement;
-      const icon = document.getElementById('theme-icon');
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      
       if (theme === 'light') {
         html.classList.remove('dark');
-        icon.textContent = '☀️';
+        if (sunIcon) sunIcon.classList.remove('hidden');
+        if (moonIcon) moonIcon.classList.add('hidden');
       } else {
         html.classList.add('dark');
-        icon.textContent = '🌙';
+        if (sunIcon) sunIcon.classList.add('hidden');
+        if (moonIcon) moonIcon.classList.remove('hidden');
       }
       localStorage.setItem('theme', theme);
     }
@@ -608,19 +610,16 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
 
-    // 2. Animation Management
+    // 2. Animation Management (SVG wave)
     function applyAnim(enabled) {
       const body = document.body;
-      const icon = document.getElementById('anim-icon');
       const label = document.getElementById('anim-label');
       if (!enabled) {
         body.classList.add('no-anim');
-        icon.textContent = '⏸️';
         if (label) label.textContent = 'Off';
       } else {
         body.classList.remove('no-anim');
-        icon.textContent = '⚡';
-        if (label) label.textContent = 'Anim';
+        if (label) label.textContent = 'Motion';
       }
       localStorage.setItem('anim', enabled ? 'true' : 'false');
     }
@@ -642,7 +641,7 @@
       card.style.setProperty('--mouse-y', `${y}px`);
     };
 
-    document.querySelectorAll('.miuix-card').forEach(card => {
+    document.querySelectorAll('.luxury-card').forEach(card => {
       card.addEventListener('mousemove', e => updatePointer(card, e.clientX, e.clientY));
       card.addEventListener('touchmove', e => {
         if (e.touches && e.touches[0]) {
@@ -651,7 +650,7 @@
       }, { passive: true });
     });
 
-    // 4. M3 & MIUIX Segmented Slider
+    // 4. Sliding Segmented Bar
     const slider = document.getElementById('filter-slider');
     
     function moveSliderTo(targetBtn) {
