@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azyr Ruthless | Android Kernel & Low-Level Developer</title>
+  <meta name="description" content="Portfolio of Azyr Ruthless — Android kernel development, Qualcomm MSM platforms, KernelSU, and root-level modules.">
+  <meta property="og:title" content="Azyr Ruthless | Android Kernel & Systems Developer">
+  <meta property="og:description" content="Android kernel development, Qualcomm MSM platforms, KernelSU, and root-level tooling.">
+  <meta property="og:url" content="https://azyrruthless.github.io">
+  <meta property="og:type" content="website">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#090a0f',
+            card: '#11141c',
+            border: '#1f2430',
+            accent: '#38bdf8',
+            accentMuted: '#0ea5e9'
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    ::selection {
+      background: #38bdf8;
+      color: #090a0f;
+    }
+    body {
+      background-color: #090a0f;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+  <!-- Header / Navigation -->
+  <header class="border-b border-border/80 sticky top-0 z-50 backdrop-blur-md bg-bg/85">
+    <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="code-font text-sm font-semibold tracking-wider text-slate-200 hover:text-accent transition flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+        azyr_ruthless@sys
+      </a>
+      <nav class="flex items-center gap-6 text-sm code-font text-slate-400">
+        <a href="#about" class="hover:text-slate-100 transition">about</a>
+        <a href="#projects" class="hover:text-slate-100 transition">projects</a>
+        <a href="#stack" class="hover:text-slate-100 transition">stack</a>
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">github ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-12 flex-1 space-y-16">
+
+    <!-- Hero / Profile -->
+    <section id="about" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+        <img 
+          src="https://avatars.githubusercontent.com/u/132790292?v=4" 
+          alt="Azyr Ruthless" 
+          class="w-24 h-24 rounded-xl border border-border bg-card object-cover shadow-lg"
+          onerror="this.src='https://github.com/identicons/AzyrRuthless.png'"
+        >
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-3">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Azyr Ruthless</h1>
+            <span class="code-font text-xs bg-cyan-950/70 text-cyan-400 border border-cyan-800/80 px-2 py-0.5 rounded">
+              @AzyrRuthless
+            </span>
+          </div>
+          <p class="text-sm code-font text-cyan-300/80">Android Kernel & Low-Level Systems Developer</p>
+          <p class="text-sm text-slate-400 italic">"The hardest steel was once the deepest wound."</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-lg bg-card border border-border text-sm leading-relaxed text-slate-300 space-y-2">
+        <p>
+          Specialized in Android Linux kernel building, upstream driver backporting, and platform stabilization. 
+          Focus on Qualcomm Snapdragon (SM6250 / Miatoll, SM6375, MSM-4.19), KernelSU/KernelSU-Next integrations, and low-level root modules.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-3 code-font text-xs">
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md bg-card border border-border hover:border-slate-500 text-slate-300 transition flex items-center gap-1.5">
+          <span>GitHub</span>
+          <span class="text-slate-500">↗</span>
+        </a>
+        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md bg-card border border-border hover:border-slate-500 text-slate-300 transition flex items-center gap-1.5">
+          <span>X / Twitter</span>
+          <span class="text-slate-500">↗</span>
+        </a>
+        <span class="px-3 py-1.5 rounded-md bg-card border border-border text-emerald-400/90 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Open to collaborate
+        </span>
+      </div>
+    </section>
+
+    <!-- Key Projects -->
+    <section id="projects" class="space-y-6">
+      <div class="flex items-baseline justify-between border-b border-border pb-3">
+        <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
+          <span class="code-font text-accent text-sm">#</span> Featured Repositories
+        </h2>
+        <a href="https://github.com/AzyrRuthless?tab=repositories" target="_blank" rel="noopener noreferrer" class="code-font text-xs text-slate-400 hover:text-accent transition">
+          view all (40+) ↗
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Project 1: kernel_xiaomi_sm6250 -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                kernel_xiaomi_sm6250
+              </a>
+              <span class="code-font text-[11px] text-amber-400/80 bg-amber-950/40 border border-amber-800/40 px-1.5 py-0.5 rounded">C / ASM</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Custom Linux kernel source tree for Qualcomm Snapdragon 720G (SM6250) platform, optimized for Xiaomi Miatoll devices (Redmi Note 9 Pro/S/Max).
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>Qualcomm SM6250</span> • <span>DTS</span> • <span>Clang</span>
+          </div>
+        </div>
+
+        <!-- Project 2: Kernel-Builder -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                Kernel-Builder
+              </a>
+              <span class="code-font text-[11px] text-emerald-400/80 bg-emerald-950/40 border border-emerald-800/40 px-1.5 py-0.5 rounded">Shell</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Automated compilation scripts and toolchain orchestrator for building Android Linux kernels with Clang, Proton-Clang, and AOSP tools.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>Automation</span> • <span>Toolchain</span> • <span>CI/CD</span>
+          </div>
+        </div>
+
+        <!-- Project 3: morphe-magisk-module -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                morphe-magisk-module
+              </a>
+              <span class="code-font text-[11px] text-emerald-400/80 bg-emerald-950/40 border border-emerald-800/40 px-1.5 py-0.5 rounded">Shell</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Systemless Magisk & KernelSU root module for daily device optimization, thermal config adjustments, and system tweaks.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>Magisk</span> • <span>KernelSU</span> • <span>Root Module</span>
+          </div>
+        </div>
+
+        <!-- Project 4: morphe-cli -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                morphe-cli
+              </a>
+              <span class="code-font text-[11px] text-violet-400/80 bg-violet-950/40 border border-violet-800/40 px-1.5 py-0.5 rounded">Kotlin</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Console and terminal patching tool utility designed for Android environment modifications and command-line execution.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>CLI</span> • <span>Kotlin</span> • <span>Android Tooling</span>
+          </div>
+        </div>
+
+        <!-- Project 5: kernel_msm-4.19 -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                kernel_msm-4.19
+              </a>
+              <span class="code-font text-[11px] text-amber-400/80 bg-amber-950/40 border border-amber-800/40 px-1.5 py-0.5 rounded">C</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Qualcomm MSM Linux Kernel 4.19 common baseline with upstream LTS patches, WireGuard backports, and scheduler enhancements.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>Kernel 4.19</span> • <span>LTS Upstream</span> • <span>MSM</span>
+          </div>
+        </div>
+
+        <!-- Project 6: device_xiaomi_miatoll -->
+        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
+                device_xiaomi_miatoll
+              </a>
+              <span class="code-font text-[11px] text-blue-400/80 bg-blue-950/40 border border-blue-800/40 px-1.5 py-0.5 rounded">C++ / Make</span>
+            </div>
+            <p class="text-xs text-slate-400 leading-normal">
+              Device tree configurations and hardware abstraction layer (HAL) definitions for building AOSP-based custom ROMs on Miatoll.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
+            <span>AOSP</span> • <span>Device Tree</span> • <span>HAL</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Technical Stack -->
+    <section id="stack" class="space-y-6">
+      <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2 border-b border-border pb-3">
+        <span class="code-font text-accent text-sm">#</span> Toolset & Domains
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs code-font">
+        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
+          <p class="text-slate-200 font-semibold text-sm">Kernel & Systems</p>
+          <ul class="space-y-1.5 text-slate-400">
+            <li>• Linux Kernel 4.14 / 4.19</li>
+            <li>• Qualcomm MSM Platform</li>
+            <li>• Device Tree (DTS/DTSI)</li>
+            <li>• Clang / LLVM / GCC Toolchains</li>
+            <li>• KPatch & Dynamic Patching</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
+          <p class="text-slate-200 font-semibold text-sm">Root & Frameworks</p>
+          <ul class="space-y-1.5 text-slate-400">
+            <li>• KernelSU / KernelSU-Next</li>
+            <li>• Magisk Systemless Modules</li>
+            <li>• Zygisk Hooking Framework</li>
+            <li>• Android HALs & Overlays</li>
+            <li>• AOSP Build System</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
+          <p class="text-slate-200 font-semibold text-sm">Languages & Tools</p>
+          <ul class="space-y-1.5 text-slate-400">
+            <li>• C / Assembly</li>
+            <li>• Shell (Bash / POSIX sh)</li>
+            <li>• Kotlin</li>
+            <li>• Git / Patch Management</li>
+            <li>• Linux / Debian / Arch</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-border/80 py-8 bg-bg">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs code-font text-slate-500">
+      <div>
+        <span>Azyr Ruthless</span> • <span>Hosted on GitHub Pages</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">github</a>
+        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">twitter</a>
+        <a href="#" class="hover:text-slate-300 transition">back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
