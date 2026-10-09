@@ -18,11 +18,12 @@
       theme: {
         extend: {
           colors: {
-            bg: '#090a0f',
-            card: '#11141c',
-            border: '#1f2430',
+            bg: '#07090e',
+            card: 'rgba(16, 20, 30, 0.65)',
+            border: 'rgba(255, 255, 255, 0.08)',
+            borderHover: 'rgba(56, 189, 248, 0.35)',
             accent: '#38bdf8',
-            accentMuted: '#0ea5e9'
+            accentGlow: 'rgba(56, 189, 248, 0.15)'
           },
           fontFamily: {
             mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
@@ -35,205 +36,322 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     ::selection {
       background: #38bdf8;
-      color: #090a0f;
+      color: #07090e;
     }
     body {
-      background-color: #090a0f;
+      background-color: #07090e;
       color: #e2e8f0;
       font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
     }
     .code-font {
       font-family: 'JetBrains Mono', monospace;
     }
+
+    /* Fluid Background Mesh */
+    .ambient-glow-1 {
+      position: fixed;
+      top: -15vw;
+      left: 15vw;
+      width: 55vw;
+      height: 55vw;
+      max-width: 700px;
+      max-height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(14, 165, 233, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatA 22s ease-in-out infinite alternate;
+    }
+    .ambient-glow-2 {
+      position: fixed;
+      top: 35vh;
+      right: -10vw;
+      width: 50vw;
+      height: 50vw;
+      max-width: 650px;
+      max-height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatB 26s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatA {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(6vw, 8vh) scale(1.12); }
+    }
+    @keyframes floatB {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-8vw, -6vh) scale(1.08); }
+    }
+
+    /* Fluid Mouse Spotlight for Cards */
+    .spotlight-card {
+      position: relative;
+      background-color: rgba(15, 20, 31, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .spotlight-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(56, 189, 248, 0.15);
+    }
+    .spotlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+        rgba(56, 189, 248, 0.08),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Filter pill active state */
+    .filter-btn.active {
+      background-color: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black relative">
+
+  <!-- Ambient Fluid Gradients -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
 
   <!-- Header / Navigation -->
-  <header class="border-b border-border/80 sticky top-0 z-50 backdrop-blur-md bg-bg/85">
-    <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#" class="code-font text-sm font-semibold tracking-wider text-slate-200 hover:text-accent transition flex items-center gap-2">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-        azyr_ruthless@sys
+  <header class="border-b border-white/[0.06] sticky top-0 z-50 backdrop-blur-xl bg-[#07090e]/75 transition-all">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="code-font text-sm font-semibold tracking-wider text-slate-200 hover:text-accent transition flex items-center gap-2.5 group">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+        </span>
+        <span class="group-hover:translate-x-0.5 transition-transform duration-200">azyr_ruthless@sys</span>
       </a>
-      <nav class="flex items-center gap-6 text-sm code-font text-slate-400">
+      <nav class="flex items-center gap-5 sm:gap-7 text-xs sm:text-sm code-font text-slate-400">
         <a href="#about" class="hover:text-slate-100 transition">about</a>
         <a href="#projects" class="hover:text-slate-100 transition">projects</a>
         <a href="#stack" class="hover:text-slate-100 transition">stack</a>
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">github ↗</a>
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="text-accent hover:text-cyan-300 transition">github ↗</a>
       </nav>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-12 flex-1 space-y-16">
+  <main class="max-w-5xl w-full mx-auto px-5 sm:px-8 py-12 sm:py-16 flex-1 space-y-16 sm:space-y-20 relative z-10">
 
     <!-- Hero / Profile -->
     <section id="about" class="space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center gap-6">
-        <img 
-          src="https://avatars.githubusercontent.com/u/132790292?v=4" 
-          alt="Azyr Ruthless" 
-          class="w-24 h-24 rounded-xl border border-border bg-card object-cover shadow-lg"
-          onerror="this.src='https://github.com/identicons/AzyrRuthless.png'"
-        >
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-3">
-            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Azyr Ruthless</h1>
-            <span class="code-font text-xs bg-cyan-950/70 text-cyan-400 border border-cyan-800/80 px-2 py-0.5 rounded">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-7">
+        <div class="relative group">
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+          <img 
+            src="https://avatars.githubusercontent.com/u/132790292?v=4" 
+            alt="Azyr Ruthless" 
+            class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border border-white/10 bg-[#10141e] object-cover shadow-2xl transition duration-300"
+            onerror="this.src='https://github.com/identicons/AzyrRuthless.png'"
+          >
+        </div>
+
+        <div class="space-y-2 flex-1">
+          <div class="flex flex-wrap items-center gap-3">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              Azyr Ruthless
+            </h1>
+            <span class="code-font text-xs bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 px-2.5 py-0.5 rounded-full">
               @AzyrRuthless
             </span>
           </div>
-          <p class="text-sm code-font text-cyan-300/80">Android Kernel & Low-Level Systems Developer</p>
-          <p class="text-sm text-slate-400 italic">"The hardest steel was once the deepest wound."</p>
+          <p class="text-sm sm:text-base code-font text-cyan-400/90 font-medium">
+            Android Kernel & Low-Level Systems Developer
+          </p>
+          <p class="text-xs sm:text-sm text-slate-400 italic">
+            "The hardest steel was once the deepest wound."
+          </p>
         </div>
       </div>
 
-      <div class="p-4 rounded-lg bg-card border border-border text-sm leading-relaxed text-slate-300 space-y-2">
+      <div class="p-5 rounded-xl spotlight-card text-sm leading-relaxed text-slate-300 space-y-2.5">
         <p>
-          Specialized in Android Linux kernel building, upstream driver backporting, and platform stabilization. 
-          Focus on Qualcomm Snapdragon (SM6250 / Miatoll, SM6375, MSM-4.19), KernelSU/KernelSU-Next integrations, and low-level root modules.
+          Building custom Android Linux kernels, upstream LTS patch tracking, and hardware abstraction stabilization. 
+          Focused on Qualcomm Snapdragon platforms (<span class="code-font text-cyan-300 text-xs">SM6250 / Miatoll</span>, <span class="code-font text-cyan-300 text-xs">SM6375</span>, <span class="code-font text-cyan-300 text-xs">MSM-4.19</span>), KernelSU/KernelSU-Next root drivers, and low-level patching utilities.
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-3 code-font text-xs">
-        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md bg-card border border-border hover:border-slate-500 text-slate-300 transition flex items-center gap-1.5">
+      <div class="flex flex-wrap items-center gap-3 code-font text-xs">
+        <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg spotlight-card hover:text-white text-slate-300 transition flex items-center gap-2">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>GitHub</span>
           <span class="text-slate-500">↗</span>
         </a>
-        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-md bg-card border border-border hover:border-slate-500 text-slate-300 transition flex items-center gap-1.5">
+        <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg spotlight-card hover:text-white text-slate-300 transition flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           <span>X / Twitter</span>
           <span class="text-slate-500">↗</span>
         </a>
-        <span class="px-3 py-1.5 rounded-md bg-card border border-border text-emerald-400/90 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Open to collaborate
-        </span>
+        <div class="px-3.5 py-2 rounded-lg spotlight-card text-emerald-400/90 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Open to collaborate</span>
+        </div>
       </div>
     </section>
 
     <!-- Key Projects -->
     <section id="projects" class="space-y-6">
-      <div class="flex items-baseline justify-between border-b border-border pb-3">
-        <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
-          <span class="code-font text-accent text-sm">#</span> Featured Repositories
-        </h2>
-        <a href="https://github.com/AzyrRuthless?tab=repositories" target="_blank" rel="noopener noreferrer" class="code-font text-xs text-slate-400 hover:text-accent transition">
-          view all (40+) ↗
-        </a>
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-white/[0.08] pb-4">
+        <div>
+          <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <span class="code-font text-accent text-sm">#</span> Featured Repositories
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">Kernels, build automations, and root-level modules.</p>
+        </div>
+
+        <!-- Interactive Category Filters -->
+        <div class="flex items-center gap-2 code-font text-xs flex-wrap">
+          <button onclick="filterProjects('all')" class="filter-btn active px-3 py-1 rounded-md border border-white/10 text-slate-300 transition duration-200" data-cat="all">all</button>
+          <button onclick="filterProjects('kernel')" class="filter-btn px-3 py-1 rounded-md border border-white/10 text-slate-300 transition duration-200" data-cat="kernel">kernels</button>
+          <button onclick="filterProjects('module')" class="filter-btn px-3 py-1 rounded-md border border-white/10 text-slate-300 transition duration-200" data-cat="module">modules</button>
+          <button onclick="filterProjects('tool')" class="filter-btn px-3 py-1 rounded-md border border-white/10 text-slate-300 transition duration-200" data-cat="tool">tools</button>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
 
         <!-- Project 1: kernel_xiaomi_sm6250 -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                kernel_xiaomi_sm6250
+              <a href="https://github.com/AzyrRuthless/kernel_xiaomi_sm6250" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">kernel_xiaomi_sm6250</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-amber-400/80 bg-amber-950/40 border border-amber-800/40 px-1.5 py-0.5 rounded">C / ASM</span>
+              <span class="code-font text-[11px] text-amber-300 bg-amber-950/40 border border-amber-800/50 px-2 py-0.5 rounded">C / ASM</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Custom Linux kernel source tree for Qualcomm Snapdragon 720G (SM6250) platform, optimized for Xiaomi Miatoll devices (Redmi Note 9 Pro/S/Max).
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>Qualcomm SM6250</span> • <span>DTS</span> • <span>Clang</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-cyan-400/80">SM6250</span> • <span>DTS</span> • <span>Clang</span>
           </div>
         </div>
 
         <!-- Project 2: Kernel-Builder -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="tool">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                Kernel-Builder
+              <a href="https://github.com/AzyrRuthless/Kernel-Builder" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">Kernel-Builder</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-emerald-400/80 bg-emerald-950/40 border border-emerald-800/40 px-1.5 py-0.5 rounded">Shell</span>
+              <span class="code-font text-[11px] text-emerald-300 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded">Shell</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Automated compilation scripts and toolchain orchestrator for building Android Linux kernels with Clang, Proton-Clang, and AOSP tools.
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>Automation</span> • <span>Toolchain</span> • <span>CI/CD</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-emerald-400/80">Toolchain</span> • <span>CI/CD</span> • <span>Bash</span>
           </div>
         </div>
 
         <!-- Project 3: morphe-magisk-module -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="module">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                morphe-magisk-module
+              <a href="https://github.com/AzyrRuthless/morphe-magisk-module" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">morphe-magisk-module</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-emerald-400/80 bg-emerald-950/40 border border-emerald-800/40 px-1.5 py-0.5 rounded">Shell</span>
+              <span class="code-font text-[11px] text-emerald-300 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded">Shell</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Systemless Magisk & KernelSU root module for daily device optimization, thermal config adjustments, and system tweaks.
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>Magisk</span> • <span>KernelSU</span> • <span>Root Module</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-emerald-400/80">Magisk</span> • <span>KernelSU</span> • <span>Tweaks</span>
           </div>
         </div>
 
         <!-- Project 4: morphe-cli -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="tool">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                morphe-cli
+              <a href="https://github.com/AzyrRuthless/morphe-cli" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">morphe-cli</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-violet-400/80 bg-violet-950/40 border border-violet-800/40 px-1.5 py-0.5 rounded">Kotlin</span>
+              <span class="code-font text-[11px] text-violet-300 bg-violet-950/40 border border-violet-800/50 px-2 py-0.5 rounded">Kotlin</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Console and terminal patching tool utility designed for Android environment modifications and command-line execution.
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>CLI</span> • <span>Kotlin</span> • <span>Android Tooling</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-violet-400/80">CLI</span> • <span>Kotlin</span> • <span>Patching</span>
           </div>
         </div>
 
         <!-- Project 5: kernel_msm-4.19 -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                kernel_msm-4.19
+              <a href="https://github.com/AzyrRuthless/kernel_msm-4.19" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">kernel_msm-4.19</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-amber-400/80 bg-amber-950/40 border border-amber-800/40 px-1.5 py-0.5 rounded">C</span>
+              <span class="code-font text-[11px] text-amber-300 bg-amber-950/40 border border-amber-800/50 px-2 py-0.5 rounded">C</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Qualcomm MSM Linux Kernel 4.19 common baseline with upstream LTS patches, WireGuard backports, and scheduler enhancements.
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>Kernel 4.19</span> • <span>LTS Upstream</span> • <span>MSM</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-amber-400/80">Kernel 4.19</span> • <span>LTS Upstream</span> • <span>MSM</span>
           </div>
         </div>
 
         <!-- Project 6: device_xiaomi_miatoll -->
-        <div class="p-5 rounded-lg bg-card border border-border hover:border-cyan-500/50 transition flex flex-col justify-between space-y-4">
-          <div class="space-y-2">
+        <div class="project-item spotlight-card p-6 rounded-xl flex flex-col justify-between space-y-4 relative" data-category="kernel">
+          <div class="space-y-2.5">
             <div class="flex items-start justify-between gap-2">
-              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm">
-                device_xiaomi_miatoll
+              <a href="https://github.com/AzyrRuthless/device_xiaomi_miatoll" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-100 hover:text-accent transition code-font text-sm flex items-center gap-1.5 group">
+                <span class="group-hover:underline">device_xiaomi_miatoll</span>
+                <span class="text-xs text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
               </a>
-              <span class="code-font text-[11px] text-blue-400/80 bg-blue-950/40 border border-blue-800/40 px-1.5 py-0.5 rounded">C++ / Make</span>
+              <span class="code-font text-[11px] text-blue-300 bg-blue-950/40 border border-blue-800/50 px-2 py-0.5 rounded">C++ / Make</span>
             </div>
-            <p class="text-xs text-slate-400 leading-normal">
+            <p class="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
               Device tree configurations and hardware abstraction layer (HAL) definitions for building AOSP-based custom ROMs on Miatoll.
             </p>
           </div>
-          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500">
-            <span>AOSP</span> • <span>Device Tree</span> • <span>HAL</span>
+          <div class="flex items-center gap-2 code-font text-[11px] text-slate-500 pt-2 border-t border-white/[0.04]">
+            <span class="text-blue-400/80">AOSP</span> • <span>Device Tree</span> • <span>HAL</span>
           </div>
         </div>
 
@@ -242,41 +360,47 @@
 
     <!-- Technical Stack -->
     <section id="stack" class="space-y-6">
-      <h2 class="text-lg font-semibold text-white tracking-tight flex items-center gap-2 border-b border-border pb-3">
+      <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2 border-b border-white/[0.08] pb-4">
         <span class="code-font text-accent text-sm">#</span> Toolset & Domains
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs code-font">
-        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
-          <p class="text-slate-200 font-semibold text-sm">Kernel & Systems</p>
-          <ul class="space-y-1.5 text-slate-400">
-            <li>• Linux Kernel 4.14 / 4.19</li>
-            <li>• Qualcomm MSM Platform</li>
-            <li>• Device Tree (DTS/DTSI)</li>
-            <li>• Clang / LLVM / GCC Toolchains</li>
-            <li>• KPatch & Dynamic Patching</li>
+        <div class="p-5 rounded-xl spotlight-card space-y-3">
+          <p class="text-slate-100 font-semibold text-sm flex items-center gap-2">
+            <span class="text-cyan-400">⚡</span> Kernel & Systems
+          </p>
+          <ul class="space-y-2 text-slate-400">
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Linux Kernel 4.14 / 4.19</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Qualcomm MSM Architecture</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Device Tree (DTS / DTSI)</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Clang / LLVM / GCC Toolchains</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> KPatch & Dynamic Patching</li>
           </ul>
         </div>
 
-        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
-          <p class="text-slate-200 font-semibold text-sm">Root & Frameworks</p>
-          <ul class="space-y-1.5 text-slate-400">
-            <li>• KernelSU / KernelSU-Next</li>
-            <li>• Magisk Systemless Modules</li>
-            <li>• Zygisk Hooking Framework</li>
-            <li>• Android HALs & Overlays</li>
-            <li>• AOSP Build System</li>
+        <div class="p-5 rounded-xl spotlight-card space-y-3">
+          <p class="text-slate-100 font-semibold text-sm flex items-center gap-2">
+            <span class="text-cyan-400">🛡️</span> Root & Frameworks
+          </p>
+          <ul class="space-y-2 text-slate-400">
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> KernelSU / KernelSU-Next</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Magisk Systemless Modules</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Zygisk Hooking Framework</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Android HALs & Overlays</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> AOSP Build Environment</li>
           </ul>
         </div>
 
-        <div class="p-4 rounded-lg bg-card border border-border space-y-2.5">
-          <p class="text-slate-200 font-semibold text-sm">Languages & Tools</p>
-          <ul class="space-y-1.5 text-slate-400">
-            <li>• C / Assembly</li>
-            <li>• Shell (Bash / POSIX sh)</li>
-            <li>• Kotlin</li>
-            <li>• Git / Patch Management</li>
-            <li>• Linux / Debian / Arch</li>
+        <div class="p-5 rounded-xl spotlight-card space-y-3">
+          <p class="text-slate-100 font-semibold text-sm flex items-center gap-2">
+            <span class="text-cyan-400">🛠️</span> Languages & Environment
+          </p>
+          <ul class="space-y-2 text-slate-400">
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> C / Assembly (arm64)</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Shell (Bash / POSIX sh)</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Kotlin</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Git & Kernel Patch Trees</li>
+            <li class="flex items-center gap-1.5"><span class="text-slate-600">›</span> Linux Workstation (Debian/Arch)</li>
           </ul>
         </div>
       </div>
@@ -285,18 +409,58 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-border/80 py-8 bg-bg">
-    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs code-font text-slate-500">
+  <footer class="border-t border-white/[0.06] py-10 bg-[#07090e]/80 relative z-10">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs code-font text-slate-500">
       <div>
         <span>Azyr Ruthless</span> • <span>Hosted on GitHub Pages</span>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-5">
         <a href="https://github.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">github</a>
         <a href="https://x.com/AzyrRuthless" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">twitter</a>
-        <a href="#" class="hover:text-slate-300 transition">back to top ↑</a>
+        <a href="#" class="hover:text-slate-300 transition">top ↑</a>
       </div>
     </div>
   </footer>
+
+  <!-- Fluid Card Spotlight & Filtering Script -->
+  <script>
+    // Fluid mouse spotlight tracker
+    document.querySelectorAll('.spotlight-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // Fluid project category filtering
+    function filterProjects(category) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-cat') === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      const cards = document.querySelectorAll('.project-item');
+      cards.forEach(card => {
+        const itemCat = card.getAttribute('data-category');
+        if (category === 'all' || itemCat === category) {
+          card.style.display = 'flex';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+            card.style.opacity = '1';
+          }, 10);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>
